@@ -341,3 +341,5 @@ class TestModelInfo:
 #     - All urgent-sounding notes get "urgent"
 #     - All routine-sounding notes get "routine"
 #   This is a great way to build a test suite for your model!
+#
+# See solutions/lab_04_challenges.md for all answers.

@@ -112,6 +112,28 @@ highlights:
 
 ---
 
+## Why Is My Confidence Score Low?
+
+If you see confidence around ~0.54 for every prediction, that's expected!
+Our training dataset has only 35 samples, so the model has a limited
+vocabulary.  Short or vague notes like *"Patient had fever"* don't
+contain the specific medical phrases the model learned from (e.g.
+"ST-elevation", "troponin", "hemodynamically unstable").
+
+Try a note that uses words from the training data and you'll see higher
+confidence:
+
+```bash
+curl -X POST http://127.0.0.1:8000/v1/predictions \
+  -H "Content-Type: application/json" \
+  -d '{"note": "Patient presents with acute chest pain, ST-elevation on ECG, and elevated troponin levels requiring immediate intervention"}'
+```
+
+This is a real-world ML lesson: **models are only as good as their
+training data.**  More data and richer vocabulary = better predictions.
+
+---
+
 ## 🎯 Challenges
 
 See the YOUR TURN section at the bottom of [app.py](app.py):

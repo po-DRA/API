@@ -1,0 +1,36 @@
+note,label
+"Patient presents with acute chest pain radiating to left arm, diaphoresis, and shortness of breath. ECG shows ST-elevation in leads II, III, and aVF. Troponin elevated at 2.4 ng/mL.",urgent
+"Severe hypotension with systolic BP 70 mmHg. Patient is tachycardic at 130 bpm. Suspected septic shock secondary to urinary tract infection. Immediate IV fluid resuscitation initiated.",urgent
+"Patient found unresponsive with GCS of 5. CT head reveals large intracerebral hemorrhage with midline shift. Neurosurgery consult requested emergently.",urgent
+"Acute respiratory distress with SpO2 78% on room air. Bilateral crackles on auscultation. Chest X-ray shows diffuse bilateral infiltrates consistent with ARDS. Intubation being prepared.",urgent
+"New onset atrial fibrillation with rapid ventricular response at 180 bpm. Patient complaining of palpitations and dizziness. Hemodynamically unstable.",urgent
+"Suspected pulmonary embolism with acute onset dyspnea and pleuritic chest pain. D-dimer elevated at 4500 ng/mL. CT angiography ordered stat.",urgent
+"Patient presenting with signs of diabetic ketoacidosis. Blood glucose 580 mg/dL, pH 7.1, bicarbonate 8 mEq/L. Insulin drip protocol initiated.",urgent
+"Acute abdomen with rebound tenderness and guarding. CT shows perforated appendix with free air. Surgical team notified for emergency laparotomy.",urgent
+"Status epilepticus lasting over 30 minutes. IV lorazepam administered without effect. Second-line agent levetiracetam being loaded. EEG monitoring initiated.",urgent
+"Massive upper GI hemorrhage with hematemesis. Hemoglobin dropped from 12 to 6.5 g/dL in 4 hours. Emergent endoscopy and transfusion of 4 units pRBC ordered.",urgent
+"Patient here for routine annual physical examination. No acute complaints. Blood pressure 122/78, BMI 24. Due for colorectal cancer screening.",routine
+"Follow-up visit for well-controlled type 2 diabetes. HbA1c stable at 6.8%. Patient tolerating metformin well. Continue current regimen and recheck in 3 months.",routine
+"Routine post-operative follow-up 6 weeks after total knee replacement. Wound healed well. Range of motion improving with physical therapy. No signs of infection.",routine
+"Patient presents for annual dermatology skin check. No new or changing moles identified. Counseled on sun protection and scheduled next annual visit.",routine
+"Well-child visit for 8-year-old. Growth and development on track. Immunizations up to date. Vision and hearing screening normal.",routine
+"Routine prenatal visit at 28 weeks gestation. Fetal heart rate 145 bpm. Fundal height appropriate. Glucose tolerance test results within normal limits.",routine
+"Follow-up for mild seasonal allergies. Symptoms controlled with over-the-counter cetirizine. No new medications needed. Return as needed.",routine
+"Patient requesting medication refill for stable hypertension. Blood pressure well controlled at 128/82 on lisinopril 10mg daily. Labs from last month all within normal limits.",routine
+"Routine colonoscopy screening in 55-year-old patient. No family history of colorectal cancer. Pre-procedure assessment completed. Scheduled for next available date.",routine
+"Follow-up for chronic low back pain managed with physical therapy and NSAIDs. Patient reports 50% improvement in symptoms. Continue current management plan.",routine
+"Annual ophthalmology exam for diabetic retinopathy screening. No evidence of retinopathy. Visual acuity 20/25 bilateral. Recheck in 12 months.",routine
+"Patient presents for routine lab work prior to medication renewal. Currently on statin therapy for hyperlipidemia. Fasting lipid panel and liver function tests ordered.",routine
+"Post-discharge follow-up after uncomplicated pneumonia treated with oral antibiotics. Symptoms fully resolved. Chest X-ray shows clearing infiltrate. No further treatment needed.",routine
+"Routine mental health follow-up. Patient stable on current SSRI regimen. PHQ-9 score improved from 12 to 5. Continue sertraline 50mg daily.",routine
+"Pre-employment physical examination. Patient in good overall health. No significant medical history. Cleared for full duty work without restrictions.",routine
+"Follow-up for iron deficiency anemia. Ferritin improved from 8 to 35 ng/mL with oral iron supplementation. Continue supplementation for 3 more months and recheck.",routine
+"Routine 6-month dental referral follow-up. No oral health concerns. Gingivitis resolved with improved hygiene. Next dental visit in 6 months.",routine
+"Patient here for travel medicine consultation ahead of trip to Southeast Asia. Vaccines reviewed and updated. Antimalarial prophylaxis prescribed.",routine
+"Follow-up visit for managed hypothyroidism. TSH 2.1 mIU/L on levothyroxine 75mcg daily. Patient reports normal energy levels. Continue current dose.",routine
+"Annual gynecological exam. Pap smear collected. Breast exam unremarkable. Discussed contraceptive options. Results to be communicated within 2 weeks.",routine
+"Acute anaphylaxis after penicillin administration. Widespread urticaria, angioedema, and stridor. Epinephrine 0.3mg IM administered. Crash cart at bedside.",urgent
+"Tension pneumothorax suspected. Absent breath sounds on left with tracheal deviation to right. Needle decompression being performed at second intercostal space.",urgent
+"Acute stroke symptoms with right-sided hemiplegia and expressive aphasia. Onset 45 minutes ago. CT head negative for hemorrhage. tPA eligibility being assessed.",urgent
+"Ruptured ectopic pregnancy with acute abdomen and hemodynamic instability. Positive pregnancy test with free fluid on ultrasound. Emergency surgery required.",urgent
+"Severe burn injury covering 40% total body surface area. Second and third degree burns to torso and extremities. Fluid resuscitation per Parkland formula initiated.",urgent

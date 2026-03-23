@@ -1,0 +1,23 @@
+# ============================================================
+# render.yaml — Render deployment blueprint
+# ============================================================
+# This file tells Render how to build and run the API.
+# Render reads this automatically when you connect the repo.
+#
+# Key decisions:
+#   - buildCommand trains the model FIRST, then installs deps
+#   - startCommand runs the production app from lab_05_deploy/
+#   - The free tier is perfect for learning / demos
+# ============================================================
+
+services:
+  - type: web
+    name: rest-api-builder
+    runtime: python
+    buildCommand: |
+      pip install uv && uv sync && python lab_02_train_model/train.py
+    startCommand: uvicorn lab_05_deploy.app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+    plan: free

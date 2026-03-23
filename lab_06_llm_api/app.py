@@ -67,7 +67,7 @@ HF_API_TOKEN = os.environ.get("HF_API_TOKEN", "")
 DEFAULT_MODEL = "mistralai/Mistral-7B-Instruct-v0.3"
 
 # HuggingFace Inference API endpoint
-HF_API_URL = "https://api-inference.huggingface.co/models/"
+HF_API_URL = "https://router.huggingface.co/hf-inference/models/"
 
 # ── Rate limiting ────────────────────────────────────────────────────
 # Simple in-memory rate limiter.  Tracks timestamps of recent requests

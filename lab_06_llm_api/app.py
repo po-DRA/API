@@ -250,10 +250,32 @@ def _call_huggingface(
         ) from err
 
     # ── Handle API errors ──
+    # Each status code gets a clear, actionable error message.
+    # This is important when wrapping external APIs — your users
+    # shouldn't have to understand HuggingFace's error format.
+    if response.status_code == 400:
+        # Bad request — usually means the model doesn't support chat
+        try:
+            error_msg = response.json().get("error", {}).get("message", response.text[:200])
+        except (ValueError, AttributeError):
+            error_msg = response.text[:200]
+        raise HTTPException(
+            status_code=400,
+            detail=f"Model '{model}' is not supported. Try a different model. "
+            f"Use GET /v1/models to see available models. Error: {error_msg}",
+        )
+
     if response.status_code == 401:
         raise HTTPException(
             status_code=503,
             detail="Invalid HuggingFace token. Check your HF_TOKEN.",
+        )
+
+    if response.status_code == 404:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Model '{model}' not found on HuggingFace. "
+            f"Check the model ID at https://huggingface.co/{model}",
         )
 
     if response.status_code == 429:

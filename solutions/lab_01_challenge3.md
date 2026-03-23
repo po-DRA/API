@@ -11,16 +11,16 @@ JSON body is a common REST pattern.
 
 ```python
 class SearchRequest(BaseModel):
-    query: str = Field(..., min_length=1, example="diabetes")
+    query: str = Field(..., min_length=1, examples=["Jane"])
 
 
 @app.post("/v1/patients/search", status_code=200, tags=["Patients"])
 def search_patients(search: SearchRequest):
-    """Search patients by name or condition (case-insensitive)."""
+    """Search patients by name (case-insensitive)."""
     q = search.query.lower()
     results = [
         p for p in patients_db.values()
-        if q in p["name"].lower() or q in p["condition"].lower()
+        if q in p["name"].lower()
     ]
     return {"data": results, "meta": {"total": len(results)}}
 ```

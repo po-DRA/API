@@ -49,6 +49,7 @@ from uuid import uuid4
 
 import requests
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
 # ── Configuration ────────────────────────────────────────────────────
@@ -286,6 +287,7 @@ def root():
     """Welcome page — confirms the API is running."""
     return {
         "message": "LLM-Powered Clinical API is running!",
+        "playground": "/play",
         "docs": "/docs",
         "endpoints": {
             "explain": "POST /v1/explain",
@@ -429,6 +431,232 @@ def rate_limit_status():
             "remaining": MAX_REQUESTS_PER_MINUTE - len(request_timestamps),
         }
     }
+
+
+# =====================================================================
+#  GET /play — Interactive Web UI
+# =====================================================================
+
+
+@app.get("/play", response_class=HTMLResponse, tags=["System"])
+def play_ui():
+    """Interactive web UI to explore the LLM API."""
+    return """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Playground</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f0f4f8; color: #1a202c;
+            max-width: 800px; margin: 0 auto; padding: 24px;
+        }
+        h1 { font-size: 1.6rem; margin-bottom: 4px; }
+        .subtitle { color: #718096; margin-bottom: 24px; font-size: 0.95rem; }
+        .card {
+            background: white; border-radius: 12px; padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px;
+        }
+        label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
+        .hint { color: #a0aec0; font-weight: 400; font-size: 0.8rem; }
+        textarea {
+            width: 100%; padding: 12px; border: 1px solid #e2e8f0;
+            border-radius: 8px; font-size: 0.95rem; resize: vertical;
+            min-height: 80px; font-family: inherit;
+        }
+        textarea:focus, select:focus { outline: none; border-color: #4299e1; }
+        .controls { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 16px; }
+        select, input[type=range] { width: 100%; padding: 8px; border: 1px solid #e2e8f0; border-radius: 8px; }
+        select { font-size: 0.9rem; background: white; }
+        .range-row { display: flex; align-items: center; gap: 8px; }
+        .range-row input { flex: 1; }
+        .range-val {
+            background: #edf2f7; padding: 4px 10px; border-radius: 6px;
+            font-size: 0.85rem; font-weight: 600; min-width: 40px; text-align: center;
+        }
+        button {
+            width: 100%; padding: 14px; background: #4299e1; color: white;
+            border: none; border-radius: 8px; font-size: 1rem; font-weight: 600;
+            cursor: pointer; margin-top: 20px; transition: background 0.2s;
+        }
+        button:hover { background: #3182ce; }
+        button:disabled { background: #a0aec0; cursor: not-allowed; }
+        .result {
+            margin-top: 20px; display: none;
+        }
+        .result-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 12px;
+        }
+        .result-header h3 { font-size: 1rem; }
+        .badge {
+            padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;
+        }
+        .badge-cached { background: #c6f6d5; color: #22543d; }
+        .badge-live { background: #bee3f8; color: #2a4365; }
+        .explanation {
+            background: #f7fafc; border-left: 4px solid #4299e1;
+            padding: 16px; border-radius: 0 8px 8px 0;
+            line-height: 1.6; white-space: pre-wrap;
+        }
+        .meta-row {
+            display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap;
+        }
+        .meta-tag {
+            background: #edf2f7; padding: 4px 10px; border-radius: 6px;
+            font-size: 0.8rem; color: #4a5568;
+        }
+        .error { background: #fed7d7; border-left-color: #e53e3e; color: #742a2a; }
+        .spinner {
+            display: inline-block; width: 16px; height: 16px;
+            border: 2px solid #fff; border-top-color: transparent;
+            border-radius: 50%; animation: spin 0.6s linear infinite;
+            vertical-align: middle; margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .examples { margin-top: 12px; }
+        .example-btn {
+            display: inline-block; padding: 6px 12px; margin: 4px;
+            background: #edf2f7; border: 1px solid #e2e8f0; border-radius: 6px;
+            font-size: 0.8rem; cursor: pointer; transition: background 0.2s;
+        }
+        .example-btn:hover { background: #e2e8f0; }
+    </style>
+</head>
+<body>
+    <h1>LLM Playground</h1>
+    <p class="subtitle">Explore the Clinical Urgency LLM API interactively</p>
+
+    <div class="card">
+        <label>Clinical Note <span class="hint">— what should the LLM analyze?</span></label>
+        <textarea id="note" placeholder="Enter a clinical note...">Patient presents with acute chest pain, ST-elevation on ECG, and elevated troponin levels requiring immediate intervention.</textarea>
+
+        <div class="examples">
+            <span class="hint">Try these:</span>
+            <span class="example-btn" onclick="setNote('Massive upper GI hemorrhage with hemoglobin dropping to 5.2. Two units of PRBCs transfused. Surgery consulted.')">GI hemorrhage</span>
+            <span class="example-btn" onclick="setNote('Routine follow-up for well-controlled type 2 diabetes. HbA1c stable at 6.4. Continue current medications.')">Routine diabetes</span>
+            <span class="example-btn" onclick="setNote('Patient found unresponsive with GCS of 3. Emergency intubation performed. CT head shows large subdural hematoma.')">Unresponsive patient</span>
+            <span class="example-btn" onclick="setNote('Annual wellness visit. No complaints. Blood pressure 118/76. BMI 23. All screening tests current.')">Wellness visit</span>
+        </div>
+
+        <div class="controls">
+            <div>
+                <label>Model</label>
+                <select id="model">
+                    <option value="mistralai/Mistral-7B-Instruct-v0.3" selected>Mistral 7B (default)</option>
+                    <option value="google/gemma-2-2b-it">Gemma 2 2B</option>
+                    <option value="microsoft/Phi-3-mini-4k-instruct">Phi-3 Mini</option>
+                    <option value="meta-llama/Llama-3.2-3B-Instruct">Llama 3.2 3B</option>
+                </select>
+            </div>
+            <div>
+                <label>Temperature <span class="hint">randomness</span></label>
+                <div class="range-row">
+                    <input type="range" id="temp" min="0" max="2" step="0.1" value="0.7"
+                           oninput="document.getElementById('tempVal').textContent=this.value">
+                    <span class="range-val" id="tempVal">0.7</span>
+                </div>
+            </div>
+            <div>
+                <label>Max Tokens <span class="hint">response length</span></label>
+                <div class="range-row">
+                    <input type="range" id="tokens" min="10" max="500" step="10" value="150"
+                           oninput="document.getElementById('tokensVal').textContent=this.value">
+                    <span class="range-val" id="tokensVal">150</span>
+                </div>
+            </div>
+        </div>
+
+        <button id="btn" onclick="explain()">Analyze Note</button>
+    </div>
+
+    <div class="result card" id="result">
+        <div class="result-header">
+            <h3>LLM Explanation</h3>
+            <span class="badge" id="cacheBadge"></span>
+        </div>
+        <div class="explanation" id="explanation"></div>
+        <div class="meta-row" id="metaRow"></div>
+    </div>
+
+    <script>
+        function setNote(text) {
+            document.getElementById('note').value = text;
+        }
+
+        async function explain() {
+            const btn = document.getElementById('btn');
+            const result = document.getElementById('result');
+            const note = document.getElementById('note').value.trim();
+
+            if (note.length < 10) {
+                alert('Note must be at least 10 characters.');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Waiting for LLM...';
+            result.style.display = 'none';
+
+            try {
+                const res = await fetch('/v1/explain', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        note: note,
+                        model: document.getElementById('model').value,
+                        temperature: parseFloat(document.getElementById('temp').value),
+                        max_tokens: parseInt(document.getElementById('tokens').value),
+                    })
+                });
+
+                const body = await res.json();
+
+                if (!res.ok) {
+                    document.getElementById('explanation').textContent = body.detail || 'Unknown error';
+                    document.getElementById('explanation').className = 'explanation error';
+                    document.getElementById('cacheBadge').textContent = 'ERROR';
+                    document.getElementById('cacheBadge').className = 'badge';
+                    document.getElementById('cacheBadge').style.background = '#fed7d7';
+                    document.getElementById('cacheBadge').style.color = '#742a2a';
+                    document.getElementById('metaRow').innerHTML = '';
+                } else {
+                    const d = body.data;
+                    document.getElementById('explanation').textContent = d.explanation;
+                    document.getElementById('explanation').className = 'explanation';
+
+                    const badge = document.getElementById('cacheBadge');
+                    if (d.cached) {
+                        badge.textContent = 'CACHED';
+                        badge.className = 'badge badge-cached';
+                    } else {
+                        badge.textContent = 'LIVE';
+                        badge.className = 'badge badge-live';
+                    }
+
+                    document.getElementById('metaRow').innerHTML =
+                        '<span class="meta-tag">Model: ' + d.model_used.split('/').pop() + '</span>' +
+                        '<span class="meta-tag">Temp: ' + d.temperature + '</span>' +
+                        '<span class="meta-tag">Tokens: ' + d.max_tokens + '</span>' +
+                        (body.meta ? '<span class="meta-tag">Rate limit left: ' + body.meta.rate_limit_remaining + '</span>' : '');
+                }
+
+                result.style.display = 'block';
+            } catch (e) {
+                alert('Connection error: ' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Analyze Note';
+            }
+        }
+    </script>
+</body>
+</html>
+"""
 
 
 # =====================================================================

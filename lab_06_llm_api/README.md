@@ -94,7 +94,9 @@ cd lab_06_llm_api
 uvicorn app:app --reload --port 8001
 ```
 
-Open [http://127.0.0.1:8001/docs](http://127.0.0.1:8001/docs) to explore.
+Open [http://127.0.0.1:8001/play](http://127.0.0.1:8001/play) for the
+interactive playground, or [/docs](http://127.0.0.1:8001/docs) for the
+Swagger UI.
 
 ---
 
@@ -103,6 +105,7 @@ Open [http://127.0.0.1:8001/docs](http://127.0.0.1:8001/docs) to explore.
 | Method | Endpoint | What It Does | Status Code |
 |---|---|---|---|
 | GET | `/` | Welcome page | 200 |
+| GET | `/play` | Interactive web playground | 200 |
 | POST | `/v1/explain` | Get an LLM explanation for a clinical note | 201 |
 | GET | `/v1/models` | List recommended models | 200 |
 | GET | `/v1/rate-limit` | Check rate limit status | 200 |

@@ -98,20 +98,6 @@ app = FastAPI(
 )
 
 
-# ── Root endpoint ──────────────────────────────────────────────────
-
-
-@app.get("/", status_code=200, tags=["System"])
-def root():
-    """Welcome page — confirms the API is running."""
-    return {
-        "message": "Clinical Urgency Prediction API is running!",
-        "docs": "/docs",
-        "predictions": "/v1/predictions",
-        "model_info": "/v1/model/info",
-    }
-
-
 # ── Pydantic models ────────────────────────────────────────────────
 
 
@@ -298,9 +284,10 @@ def get_model_info():
 # =====================================================================
 #
 # Challenge 1 (Easy):
-#   Add a GET /v1/predictions/stats endpoint that returns:
+#   Add a root / endpoint so visitors see a welcome message instead
+#   of 404. Also add GET /v1/predictions/stats that returns:
 #   {"total": N, "urgent": N, "routine": N}
-#   showing counts of each prediction type stored.
+#   Hint: Place /stats BEFORE /{prediction_id} in your code!
 #
 # Challenge 2 (Medium):
 #   Add a min_confidence query parameter to the list endpoint
@@ -312,3 +299,5 @@ def get_model_info():
 #   of notes and returns predictions for all of them in one call.
 #   This is a common pattern for ML APIs — it reduces network
 #   round-trips when you have many items to classify.
+#
+# See solutions/lab_03_challenges.md for all answers.

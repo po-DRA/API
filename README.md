@@ -149,6 +149,7 @@ These resources are linked throughout the labs:
 | Deploying ML with FastAPI | [Analytics Vidhya](https://www.analyticsvidhya.com/blog/2022/09/deploying-ml-models-using-fastapi/) |
 | FastAPI + HuggingFace | [Towards Data Science](https://towardsdatascience.com/deploy-nlp-models-with-fastapi-streamlit-and-hugging-face/) |
 | Build FastAPI in Minutes | [Real Python](https://realpython.com/fastapi-python-web-apis/) |
+| Different Types of APIs | [Postman Blog](https://blog.postman.com/different-types-of-apis/) |
 | Training Script Inspiration | [ci-cd-template](https://github.com/po-DRA/ci-cd-template/blob/main/scripts/train.py) |
 
 ---

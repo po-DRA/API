@@ -258,6 +258,47 @@ highlights:
 
 ---
 
+## A Note on Caching: From Dict to Redis
+
+In this lab, we use a simple **Python dictionary** as our cache:
+
+```python
+llm_cache: dict[str, dict] = {}
+```
+
+This works great for learning, but it has limitations:
+
+| | Python dict (this lab) | Redis (production) |
+|---|---|---|
+| **Setup** | Nothing — just works | Install and run Redis server |
+| **Persistence** | Lost when the app restarts | Survives restarts |
+| **Multiple workers** | Each worker has its own cache | Shared across all workers |
+| **Memory** | Grows forever (no eviction) | Auto-evicts old entries (LRU) |
+| **Best for** | Learning, prototyping | Production APIs |
+
+In production, you'd replace the dict with
+[Redis](https://redis.io/) — an in-memory data store designed for
+exactly this use case:
+
+```python
+# What production code looks like (future topic!):
+import redis
+
+cache = redis.StrictRedis(host="localhost", port=6379, decode_responses=True)
+
+# Store with a 1-hour expiry (auto-cleanup!)
+cache.setex(cache_key, 3600, json.dumps(record))
+
+# Retrieve
+cached = cache.get(cache_key)
+```
+
+Redis also powers rate limiting, session storage, and real-time
+leaderboards. It's one of the most widely used tools in API
+infrastructure — a great next topic to explore.
+
+---
+
 ## Challenges
 
 See the YOUR TURN section at the bottom of [app.py](app.py):

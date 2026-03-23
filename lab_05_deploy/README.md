@@ -60,7 +60,7 @@ perfect for learning.
 
 6. **Click "Create Web Service"** and wait for the build (~2 min).
 
-7. **Visit your URL** — e.g. `https://rest-api-builder.onrender.com/docs`
+7. **Visit your URL** — e.g. `https://your-app-name.onrender.com/docs`
 
 > **Note:** The free tier spins down after 15 min of inactivity.
 > The first request after idle takes ~30 seconds to cold-start.

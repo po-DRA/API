@@ -167,7 +167,7 @@ If you use this template for teaching, research, or derivative work, please cite
   author  = {Ojha, Priyanka},
   orcid   = {https://orcid.org/0000-0002-6844-6493},
   title   = {REST-API-Builder: Hands-on REST API Tutorial for ML},
-  url     = {https://github.com/po-DRA/REST-API-Builder},
+  url     = {https://github.com/po-DRA/API},
   version = {1.0.0},
   year    = {2026},
   license = {MIT}

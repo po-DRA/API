@@ -226,27 +226,4 @@ app.add_middleware(
 
 ---
 
-## 🎉 Congratulations!
-
-You've completed the entire REST-API-Builder tutorial!
-
-Here's what you've accomplished:
-
-1. **Lab 00** — Learned REST fundamentals, HTTP verbs, and status codes
-2. **Lab 01** — Built your first CRUD API with FastAPI
-3. **Lab 02** — Trained a clinical urgency classifier
-4. **Lab 03** — Exposed the model as a REST API
-5. **Lab 04** — Wrote automated tests with pytest
-6. **Lab 05** — Deployed to the cloud (or Docker)
-
-You now have the skills to take **any** machine learning model and
-serve it as a production-ready REST API.
-
-### What to Explore Next
-
-- Add authentication (API keys or OAuth)
-- Connect to a real database (PostgreSQL, MongoDB)
-- Add logging and monitoring
-- Try deploying with CI/CD (see the
-  [ci-cd-template](https://github.com/po-DRA/ci-cd-template))
-- Explore the [API Learning Roadmap](https://bytebytego.com/guides/the-ultimate-api-learning-roadmap/)
+**Next →** [Lab 06: LLM API](../lab_06_llm_api/README.md)

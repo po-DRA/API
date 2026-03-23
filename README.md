@@ -2,7 +2,7 @@
 
 A self-paced, hands-on tutorial that teaches you how to **build, test, and deploy a REST API** that serves a machine learning model — using healthcare examples throughout.
 
-By the end, you will have a working API that classifies clinical notes as **urgent** or **routine**, tested with pytest, and deployed to the cloud.
+By the end, you will have a working API that classifies clinical notes as **urgent** or **routine**, tested with pytest, deployed to the cloud, and powered by an LLM for explanations.
 
 ---
 
@@ -24,6 +24,7 @@ A **Clinical Urgency Prediction API** that:
 3. Returns the prediction with a confidence score
 4. Stores predictions for later retrieval
 5. Is deployed and accessible via the internet
+6. Uses an LLM to explain why a note is urgent or routine
 
 ```mermaid
 flowchart LR
@@ -64,8 +65,9 @@ flowchart LR
 | [Lab 03](lab_03_expose_model/README.md) | Expose the Model — Serve predictions as a REST API | 
 | [Lab 04](lab_04_test_api/README.md) | Test the API — pytest with FastAPI TestClient |
 | [Lab 05](lab_05_deploy/README.md) | Deploy — Render, HuggingFace Spaces, or Docker |
+| [Lab 06](lab_06_llm_api/README.md) | LLM API — Call HuggingFace and build a wrapper API |
 
-**Total:** ~2.5 hours
+**Total:** ~3 hours
 
 ---
 
@@ -111,7 +113,10 @@ REST-API-Builder/
 │   └── README.md                ← Generated model files go here
 ├── solutions/
 │   ├── lab_00_answers.md        ← Quiz answers for Lab 00
-│   └── lab_01_challenge3.md     ← Solution for Lab 01 stretch challenge
+│   ├── lab_01_challenge3.md     ← Solution for Lab 01 stretch challenge
+│   ├── lab_03_challenges.md     ← Solutions for Lab 03 challenges
+│   ├── lab_04_challenges.md     ← Solutions for Lab 04 challenges
+│   └── lab_06_challenges.md     ← Solutions for Lab 06 challenges
 ├── lab_00_rest_fundamentals/
 │   └── README.md                ← REST theory + quiz
 ├── lab_01_your_first_api/
@@ -126,8 +131,11 @@ REST-API-Builder/
 ├── lab_04_test_api/
 │   ├── test_api.py              ← pytest tests
 │   └── README.md
-└── lab_05_deploy/
-    ├── app.py                   ← Production-ready app
+├── lab_05_deploy/
+│   ├── app.py                   ← Production-ready app
+│   └── README.md
+└── lab_06_llm_api/
+    ├── app.py                   ← LLM wrapper API
     └── README.md
 ```
 
@@ -148,6 +156,7 @@ These resources are linked throughout the labs:
 | FastAPI Docs | [fastapi.tiangolo.com](https://fastapi.tiangolo.com/) |
 | Build FastAPI in Minutes | [Real Python](https://realpython.com/fastapi-python-web-apis/) |
 | Different Types of APIs | [Postman Blog](https://blog.postman.com/different-types-of-apis/) |
+| HuggingFace Inference API | [huggingface.co/docs/api-inference](https://huggingface.co/docs/api-inference/) |
 | Training Script Inspiration | [ci-cd-template](https://github.com/po-DRA/ci-cd-template/blob/main/scripts/train.py) |
 
 ---

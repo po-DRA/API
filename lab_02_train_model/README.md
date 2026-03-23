@@ -40,7 +40,10 @@ Each row has a `note` (free-text clinical note) and a `label`
 ## Run It
 
 ```bash
-# From the project root
+# First, go back to the project root (if you're still in lab_01)
+cd ..
+
+# Run the training script
 python lab_02_train_model/train.py
 ```
 

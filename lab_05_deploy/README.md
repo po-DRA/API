@@ -20,6 +20,17 @@
 
 ---
 
+## Before You Start
+
+Make sure you are in the **project root** directory (not inside a lab folder):
+
+```bash
+# Go back to the project root if needed
+cd ..
+```
+
+---
+
 ## What's Different in the Production App?
 
 Open [app.py](app.py) and compare it to Lab 03's version.  Key additions:

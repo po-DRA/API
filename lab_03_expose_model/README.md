@@ -23,10 +23,13 @@
 ## Setup
 
 ```bash
-# 1. Make sure the model is trained
+# 1. Go back to the project root (if you're not already there)
+cd ..
+
+# 2. Make sure the model is trained
 python lab_02_train_model/train.py
 
-# 2. Start the prediction API
+# 3. Start the prediction API
 cd lab_03_expose_model
 uvicorn app:app --reload
 ```

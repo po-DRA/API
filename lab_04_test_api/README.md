@@ -35,7 +35,10 @@
 ## Run the Tests
 
 ```bash
-# From the project root
+# Go back to the project root (if you're still in lab_03)
+cd ..
+
+# Run the tests
 pytest lab_04_test_api/test_api.py -v
 ```
 

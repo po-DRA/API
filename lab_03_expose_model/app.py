@@ -23,8 +23,6 @@ Architecture decisions:
     - Endpoints follow REST conventions from Lab 00.
 
 Reference:
-    - Deploying ML models with FastAPI:
-      https://www.analyticsvidhya.com/blog/2022/09/deploying-ml-models-using-fastapi/
     - FastAPI lifespan:
       https://fastapi.tiangolo.com/advanced/events/
 """

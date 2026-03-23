@@ -27,8 +27,6 @@ Why a Pipeline?
 Reference:
     Training script inspiration:
         https://github.com/po-DRA/ci-cd-template/blob/main/scripts/train.py
-    Deploying ML models with FastAPI:
-        https://www.analyticsvidhya.com/blog/2022/09/deploying-ml-models-using-fastapi/
 """
 
 import json

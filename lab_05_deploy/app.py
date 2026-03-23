@@ -16,10 +16,7 @@ How to run locally:
     uvicorn lab_05_deploy.app:app --reload --port 7860
 
 Reference:
-    - Deploy NLP with FastAPI + HuggingFace:
-      https://towardsdatascience.com/deploy-nlp-models-with-fastapi-streamlit-and-hugging-face/
-    - Deploying ML models with FastAPI:
-      https://www.analyticsvidhya.com/blog/2022/09/deploying-ml-models-using-fastapi/
+    - FastAPI docs: https://fastapi.tiangolo.com/
 """
 
 import json

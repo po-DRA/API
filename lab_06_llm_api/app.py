@@ -171,11 +171,20 @@ class LLMResponse(BaseModel):
 # ── Helper: call HuggingFace ────────────────────────────────────────
 
 
+DEFAULT_SYSTEM_PROMPT = (
+    "You are a clinical assistant. "
+    "Given a clinical note, explain in 2-3 sentences "
+    "whether it suggests an urgent or routine case, and why. "
+    "Be concise and focus on key clinical indicators."
+)
+
+
 def _call_huggingface(
     prompt: str,
     model: str = DEFAULT_MODEL,
     temperature: float = 0.7,
     max_tokens: int = 150,
+    system_prompt: str = DEFAULT_SYSTEM_PROMPT,
 ) -> str:
     """
     Send a prompt to HuggingFace Inference API and return the response.
@@ -217,12 +226,7 @@ def _call_huggingface(
         "messages": [
             {
                 "role": "system",
-                "content": (
-                    "You are a clinical assistant. "
-                    "Given a clinical note, explain in 2-3 sentences "
-                    "whether it suggests an urgent or routine case, and why. "
-                    "Be concise and focus on key clinical indicators."
-                ),
+                "content": system_prompt,
             },
             {
                 "role": "user",

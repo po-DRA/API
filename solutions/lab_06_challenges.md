@@ -42,18 +42,16 @@ def summarize_note(request: SummarizeRequest):
     """Summarize a long clinical note into key points."""
     _check_rate_limit()
 
-    prompt = (
-        "You are a clinical assistant."
-        "Summarize the following clinical note in 2-3 bullet points. "
-        "Focus on: diagnosis, key findings, and recommended actions.\n\n"
-        f"Clinical note: {request.note}"
-    )
-
     summary = _call_huggingface(
-        prompt=prompt,
+        prompt=f"Clinical note: {request.note}",
         model=request.model,
         temperature=0.3,  # Low temperature for factual summaries
         max_tokens=request.max_tokens,
+        system_prompt=(
+            "You are a clinical assistant. "
+            "Summarize the following clinical note in 2-3 bullet points. "
+            "Focus on: diagnosis, key findings, and recommended actions."
+        ),
     )
 
     return {
@@ -128,14 +126,8 @@ def analyze_note(request: AnalyzeRequest):
         }
 
     # Step 2: LLM explanation (slower)
-    prompt = (
-        "You are a clinical assistant."
-        "Given the following clinical note, explain in 2-3 sentences "
-        "whether this is urgent or routine and why.\n\n"
-        f"Clinical note: {request.note}"
-    )
     explanation = _call_huggingface(
-        prompt=prompt,
+        prompt=f"Clinical note: {request.note}",
         temperature=request.temperature,
         max_tokens=request.max_tokens,
     )

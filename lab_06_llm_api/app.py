@@ -14,10 +14,10 @@ How to run:
     #   3. Set it as an environment variable:
 
     # Linux/Mac/Codespaces:
-    export HF_API_TOKEN="hf_your_token_here"
+    export HF_TOKEN="hf_your_token_here"
 
     # Windows PowerShell:
-    $env:HF_API_TOKEN = "hf_your_token_here"
+    $env:HF_TOKEN = "hf_your_token_here"
 
     # Start the API:
     cd lab_06_llm_api
@@ -59,15 +59,17 @@ from pydantic import BaseModel, Field
 #   - Different environments (dev, staging, prod) use different keys.
 #   - This is an industry-standard practice (12-factor app methodology).
 
-HF_API_TOKEN = os.environ.get("HF_API_TOKEN", "")
+HF_TOKEN = os.environ.get("HF_TOKEN", "")
 
-# The model to use on HuggingFace.  This is a small, fast model
-# that works well on the free tier.  You can swap it for any model
-# on the HuggingFace Hub.
+# The model to use on HuggingFace.  You can swap it for any model
+# available through HuggingFace Inference Providers.
+# Browse models: https://huggingface.co/models?inference_provider=all&sort=trending
 DEFAULT_MODEL = "mistralai/Mistral-7B-Instruct-v0.3"
 
-# HuggingFace Inference API endpoint
-HF_API_URL = "https://router.huggingface.co/hf-inference/models/"
+# HuggingFace now uses an OpenAI-compatible chat completions endpoint.
+# This is the same format used by OpenAI, making it easy to switch
+# providers later without changing your code structure.
+HF_API_URL = "https://router.huggingface.co/v1/chat/completions"
 
 # ── Rate limiting ────────────────────────────────────────────────────
 # Simple in-memory rate limiter.  Tracks timestamps of recent requests
@@ -172,47 +174,63 @@ def _call_huggingface(
     Send a prompt to HuggingFace Inference API and return the response.
 
     This is a raw REST call using the requests library — no SDK needed!
-    The HuggingFace API follows the same REST patterns you learned in
-    Labs 00-03:
-        - POST request (we're creating a completion)
-        - JSON body with our parameters
-        - Authorization header with our API token
-        - JSON response with the result
+    HuggingFace uses an OpenAI-compatible chat completions format:
+        - POST request to /v1/chat/completions
+        - JSON body with "model", "messages", and parameters
+        - Authorization header with our token
+        - JSON response with choices[0].message.content
+
+    This is the same format used by OpenAI, Groq, and many other
+    providers — learn it once, use it everywhere.
     """
-    if not HF_API_TOKEN:
+    if not HF_TOKEN:
         raise HTTPException(
             status_code=503,
             detail=(
-                "HuggingFace API token not set. "
-                "Set the HF_API_TOKEN environment variable. "
+                "HuggingFace token not set. "
+                "Set the HF_TOKEN environment variable. "
                 "Get a free token at https://huggingface.co/settings/tokens"
             ),
         )
-
-    url = f"{HF_API_URL}{model}"
 
     # ── Build the request ──
     # Notice: this is just a POST with JSON — exactly like what
     # clients send to YOUR API!  APIs calling APIs is the same pattern.
     headers = {
-        "Authorization": f"Bearer {HF_API_TOKEN}",
+        "Authorization": f"Bearer {HF_TOKEN}",
         "Content-Type": "application/json",
     }
 
+    # OpenAI-compatible chat completions format.
+    # The "messages" array is how all modern LLM APIs work:
+    #   - "system" message: sets the LLM's behavior/role
+    #   - "user" message: the actual question/input
     payload = {
-        "inputs": prompt,
-        "parameters": {
-            "temperature": temperature,
-            "max_new_tokens": max_tokens,
-            "return_full_text": False,
-        },
+        "model": model,
+        "messages": [
+            {
+                "role": "system",
+                "content": (
+                    "You are a clinical assistant. "
+                    "Given a clinical note, explain in 2-3 sentences "
+                    "whether it suggests an urgent or routine case, and why. "
+                    "Be concise and focus on key clinical indicators."
+                ),
+            },
+            {
+                "role": "user",
+                "content": prompt,
+            },
+        ],
+        "temperature": temperature,
+        "max_tokens": max_tokens,
     }
 
     # ── Make the call ──
     # We handle common error scenarios that you'll encounter with
     # any external API:
     try:
-        response = requests.post(url, headers=headers, json=payload, timeout=30)
+        response = requests.post(HF_API_URL, headers=headers, json=payload, timeout=60)
     except requests.exceptions.Timeout as err:
         raise HTTPException(
             status_code=504,
@@ -228,7 +246,7 @@ def _call_huggingface(
     if response.status_code == 401:
         raise HTTPException(
             status_code=503,
-            detail="Invalid HuggingFace token. Check your HF_API_TOKEN.",
+            detail="Invalid HuggingFace token. Check your HF_TOKEN.",
         )
 
     if response.status_code == 429:
@@ -238,13 +256,9 @@ def _call_huggingface(
         )
 
     if response.status_code == 503:
-        # Model is loading — HuggingFace returns 503 while loading
-        error_data = response.json()
-        wait_time = error_data.get("estimated_time", 30)
         raise HTTPException(
             status_code=503,
-            detail=f"Model is loading on HuggingFace. Estimated wait: {wait_time:.0f}s. "
-            f"Try again shortly.",
+            detail="Model is loading on HuggingFace. Try again in 30 seconds.",
         )
 
     if response.status_code != 200:
@@ -254,10 +268,12 @@ def _call_huggingface(
         )
 
     # ── Parse the response ──
+    # OpenAI-compatible format: choices[0].message.content
     result = response.json()
-    if isinstance(result, list) and len(result) > 0:
-        return result[0].get("generated_text", "").strip()
-    return str(result).strip()
+    try:
+        return result["choices"][0]["message"]["content"].strip()
+    except (KeyError, IndexError):
+        return str(result).strip()
 
 
 # =====================================================================
@@ -276,7 +292,7 @@ def root():
             "models": "GET /v1/models",
             "rate_limit": "GET /v1/rate-limit",
         },
-        "setup": "Set HF_API_TOKEN environment variable to get started.",
+        "setup": "Set HF_TOKEN environment variable to get started.",
     }
 
 
@@ -313,15 +329,10 @@ def explain_note(request: ExplainRequest):
         return {"data": cached}
 
     # ── Build the prompt ──
-    # This is where prompt engineering happens.  The client just
-    # sends a clinical note — we wrap it in instructions for the LLM.
-    prompt = (
-        "[INST] You are a clinical assistant. "
-        "Given the following clinical note, explain in 2-3 sentences "
-        "whether this note suggests an urgent or routine case, and why. "
-        "Be concise and focus on the key clinical indicators.\n\n"
-        f"Clinical note: {request.note} [/INST]"
-    )
+    # The system message (role/instructions) is set inside
+    # _call_huggingface.  Here we just pass the clinical note
+    # as the user message — clean separation of concerns.
+    prompt = f"Clinical note: {request.note}"
 
     # ── Call the LLM ──
     explanation = _call_huggingface(

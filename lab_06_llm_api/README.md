@@ -36,8 +36,8 @@ sequenceDiagram
     Note over YourAPI: Check rate limit
     Note over YourAPI: Check cache
     Note over YourAPI: Build prompt
-    YourAPI->>HF: POST /models/mistral {"inputs": "..."}
-    HF-->>YourAPI: {"generated_text": "..."}
+    YourAPI->>HF: POST /v1/chat/completions {"model": "...", "messages": [...]}
+    HF-->>YourAPI: {"choices": [{"message": {"content": "..."}}]}
     Note over YourAPI: Cache response
     YourAPI-->>Client: {"explanation": "...", "cached": false}
 ```
@@ -61,21 +61,21 @@ sequenceDiagram
 1. **Sign up** at [huggingface.co/join](https://huggingface.co/join)
    (free, no credit card needed)
 2. **Create a token** at
-   [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
-   — choose "Read" access
+   [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens/new?ownUserPermissions=inference.serverless.write&tokenType=fineGrained)
+   — choose "Fine-grained" with "Make calls to Inference Providers"
 3. **Copy the token** (starts with `hf_...`)
 
 ### 2. Set the Token as an Environment Variable
 
 ```bash
 # Linux / Mac / Codespaces:
-export HF_API_TOKEN="hf_your_token_here"
+export HF_TOKEN="hf_your_token_here"
 
 # Windows PowerShell:
-$env:HF_API_TOKEN = "hf_your_token_here"
+$env:HF_TOKEN = "hf_your_token_here"
 
 # Windows CMD:
-set HF_API_TOKEN=hf_your_token_here
+set HF_TOKEN=hf_your_token_here
 ```
 
 > **Security rule:** NEVER put API keys in your code or commit them

@@ -43,10 +43,10 @@ def summarize_note(request: SummarizeRequest):
     _check_rate_limit()
 
     prompt = (
-        "[INST] You are a clinical assistant. "
+        "You are a clinical assistant."
         "Summarize the following clinical note in 2-3 bullet points. "
         "Focus on: diagnosis, key findings, and recommended actions.\n\n"
-        f"Clinical note: {request.note} [/INST]"
+        f"Clinical note: {request.note}"
     )
 
     summary = _call_huggingface(
@@ -129,10 +129,10 @@ def analyze_note(request: AnalyzeRequest):
 
     # Step 2: LLM explanation (slower)
     prompt = (
-        "[INST] You are a clinical assistant. "
+        "You are a clinical assistant."
         "Given the following clinical note, explain in 2-3 sentences "
         "whether this is urgent or routine and why.\n\n"
-        f"Clinical note: {request.note} [/INST]"
+        f"Clinical note: {request.note}"
     )
     explanation = _call_huggingface(
         prompt=prompt,

@@ -48,9 +48,15 @@ from datetime import UTC, datetime
 from uuid import uuid4
 
 import requests
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
+
+# Load .env file from the project root (if it exists).
+# This lets you store API keys in a .env file instead of
+# setting environment variables manually every time.
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env"))
 
 # ── Configuration ────────────────────────────────────────────────────
 # API token from environment variable — NEVER hardcode secrets!

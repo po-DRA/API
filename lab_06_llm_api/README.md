@@ -65,7 +65,23 @@ sequenceDiagram
    — choose "Fine-grained" with "Make calls to Inference Providers"
 3. **Copy the token** (starts with `hf_...`)
 
-### 2. Set the Token as an Environment Variable
+### 2. Set the Token (using a .env file)
+
+The easiest way — create a `.env` file in the project root:
+
+```bash
+# Copy the template
+cp .env.example .env
+
+# Edit .env and paste your token
+# It should look like:  HF_TOKEN=hf_abc123...
+```
+
+The app loads `.env` automatically at startup — no need to `export`
+anything.
+
+**Alternative:** set it directly in your terminal (resets when you
+close it):
 
 ```bash
 # Linux / Mac / Codespaces:
@@ -73,14 +89,11 @@ export HF_TOKEN="hf_your_token_here"
 
 # Windows PowerShell:
 $env:HF_TOKEN = "hf_your_token_here"
-
-# Windows CMD:
-set HF_TOKEN=hf_your_token_here
 ```
 
 > **Security rule:** NEVER put API keys in your code or commit them
-> to git. Environment variables keep secrets out of your repository.
-> This is industry-standard practice
+> to git. The `.env` file is already in `.gitignore` so it won't be
+> pushed. This is industry-standard practice
 > ([12-factor app](https://12factor.net/config)).
 
 ### 3. Start the API

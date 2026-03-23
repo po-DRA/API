@@ -402,9 +402,9 @@ def list_models():
             "size": "7B parameters",
         },
         {
-            "id": "google/gemma-2-2b-it",
-            "description": "Lightweight model from Google",
-            "size": "2B parameters",
+            "id": "meta-llama/Llama-3.2-3B-Instruct",
+            "description": "Small and capable Llama model",
+            "size": "3B parameters",
         },
     ]
 
@@ -556,7 +556,7 @@ def play_ui():
                     <option value="meta-llama/Llama-3.1-8B-Instruct" selected>Llama 3.1 8B (default)</option>
                     <option value="meta-llama/Llama-3.2-1B-Instruct">Llama 3.2 1B (fast)</option>
                     <option value="Qwen/Qwen2.5-7B-Instruct">Qwen 2.5 7B</option>
-                    <option value="google/gemma-2-2b-it">Gemma 2 2B</option>
+                    <option value="meta-llama/Llama-3.2-3B-Instruct">Llama 3.2 3B</option>
                 </select>
             </div>
             <div>

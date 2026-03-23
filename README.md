@@ -43,14 +43,14 @@ A **Clinical Urgency Prediction API** that:
 
 ## Learning Path
 
-| Lab | Topic | Time |
+| Lab | Topic |
 |---|---|---|
-| [Lab 00](lab_00_rest_fundamentals/README.md) | REST Fundamentals — HTTP verbs, status codes, URL design | 30 min |
-| [Lab 01](lab_01_your_first_api/README.md) | Your First API — FastAPI CRUD with all 5 HTTP verbs | 30 min |
-| [Lab 02](lab_02_train_model/README.md) | Train the Model — TF-IDF + Logistic Regression pipeline | 20 min |
-| [Lab 03](lab_03_expose_model/README.md) | Expose the Model — Serve predictions as a REST API | 30 min |
-| [Lab 04](lab_04_test_api/README.md) | Test the API — pytest with FastAPI TestClient | 25 min |
-| [Lab 05](lab_05_deploy/README.md) | Deploy — Render, HuggingFace Spaces, or Docker | 30 min |
+| [Lab 00](lab_00_rest_fundamentals/README.md) | REST Fundamentals — HTTP verbs, status codes, URL design | 
+| [Lab 01](lab_01_your_first_api/README.md) | Your First API — FastAPI CRUD with all 5 HTTP verbs |
+| [Lab 02](lab_02_train_model/README.md) | Train the Model — TF-IDF + Logistic Regression pipeline | 
+| [Lab 03](lab_03_expose_model/README.md) | Expose the Model — Serve predictions as a REST API | 
+| [Lab 04](lab_04_test_api/README.md) | Test the API — pytest with FastAPI TestClient |
+| [Lab 05](lab_05_deploy/README.md) | Deploy — Render, HuggingFace Spaces, or Docker |
 
 **Total:** ~2.5 hours
 
@@ -162,6 +162,8 @@ If you use this template for teaching, research, or derivative work, please cite
 }
 ```
 
----
+## Acknowledgements
 
-Made with help of Claude and tested by a real human.
+This teaching material ,code, documentation, diagrams and README were developed by a human educator with AI assistance
+from **[Claude](https://claude.ai)** (Anthropic) used as a pair-programming partner for debugging, drafting, and refining content throughout the project.
+It was tested by a real human.

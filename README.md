@@ -17,6 +17,7 @@ Click the button below to open this repo in a **cloud development environment** 
 > Or clone and run locally: `git clone ... && pip install -r requirements.txt`
 
 ---
+<img width="2250" height="2752" alt="image" src="https://github.com/user-attachments/assets/d75bc383-d603-4cf2-b0a0-e5588d620a01" />
 
 ## 🗺️ The 1-Hour Roadmap
 

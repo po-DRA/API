@@ -44,7 +44,7 @@ A **Clinical Urgency Prediction API** that:
 ## Learning Path
 
 | Lab | Topic |
-|---|---|---|
+|---|---|
 | [Lab 00](lab_00_rest_fundamentals/README.md) | REST Fundamentals — HTTP verbs, status codes, URL design | 
 | [Lab 01](lab_01_your_first_api/README.md) | Your First API — FastAPI CRUD with all 5 HTTP verbs |
 | [Lab 02](lab_02_train_model/README.md) | Train the Model — TF-IDF + Logistic Regression pipeline | 

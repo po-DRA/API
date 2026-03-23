@@ -1,7 +1,7 @@
-# 🏥 Medical ML API Tutorial
+# 🏥 API Tutorial with ML model usage
 ### *From Zero to Deployed in 60 Minutes*
 
-> **Built for:** Medical researchers with basic Python knowledge  
+> **Built for:** Researchers with basic Python knowledge  
 > **Goal:** Build a real NLP API that extracts entities from clinical notes and deploy it publicly  
 > **Time:** ~1 hour | **Platform:** GitHub Codespaces (zero local setup needed)
 
@@ -9,7 +9,7 @@
 
 ## ⚡ Start in 30 Seconds (No Setup Required)
 
-Click the button below to open this repo in a **cloud development environment** — Python, all dependencies, and VS Code, all ready instantly:
+Click the button below to open this repo in a **cloud development environment** : Python, all dependencies, and VS Code, all ready instantly:
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/po-DRA/API)
 
@@ -74,7 +74,7 @@ Anything you want to call automatically, repeatedly, or from other tools:
 ## 📁 Repo Structure
 
 ```
-medical-ml-api-tutorial/
+api/
 │
 ├── 📖 README.md                    ← You are here
 │

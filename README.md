@@ -11,7 +11,7 @@
 
 Click the button below to open this repo in a **cloud development environment** — Python, all dependencies, and VS Code, all ready instantly:
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/YOUR_USERNAME/medical-ml-api-tutorial)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/po-DRA/API)
 
 > **Don't have Codespaces?** GitHub gives you 60 free hours/month.  
 > Or clone and run locally: `git clone ... && pip install -r requirements.txt`

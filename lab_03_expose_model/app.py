@@ -98,6 +98,20 @@ app = FastAPI(
 )
 
 
+# ── Root endpoint ──────────────────────────────────────────────────
+
+
+@app.get("/", status_code=200, tags=["System"])
+def root():
+    """Welcome page — confirms the API is running."""
+    return {
+        "message": "Clinical Urgency Prediction API is running!",
+        "docs": "/docs",
+        "predictions": "/v1/predictions",
+        "model_info": "/v1/model/info",
+    }
+
+
 # ── Pydantic models ────────────────────────────────────────────────
 
 

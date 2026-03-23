@@ -29,6 +29,22 @@ app = FastAPI(
     version="1.0.0",
 )
 
+
+# ── Root endpoint ──────────────────────────────────────────────────
+# Without this, visiting http://127.0.0.1:8000/ returns 404, which
+# confuses beginners. A friendly landing page points them to /docs.
+
+
+@app.get("/", status_code=200, tags=["System"])
+def root():
+    """Welcome page — directs users to the interactive docs."""
+    return {
+        "message": "Patient Management API is running!",
+        "docs": "/docs",
+        "patients": "/v1/patients",
+    }
+
+
 # ── Data model ──────────────────────────────────────────────────────
 # Pydantic models validate incoming JSON automatically.
 # If someone sends {"age": "banana"}, FastAPI returns 422 for us.

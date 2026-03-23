@@ -41,6 +41,7 @@ Once the server is running, open these URLs in your browser:
 
 | URL | What It Shows |
 |---|---|
+| http://127.0.0.1:8000/ | Welcome page — confirms the API is running |
 | http://127.0.0.1:8000/docs | Interactive Swagger UI — try every endpoint! |
 | http://127.0.0.1:8000/redoc | Clean, readable API documentation |
 | http://127.0.0.1:8000/v1/patients | JSON list of all patients |

@@ -1,7 +1,7 @@
 # Lab 01 — Your First REST API
 
-> **Goal:** Build a working FastAPI server that manages patients using
-> all 5 HTTP verbs, with correct REST status codes.
+> **Goal:** Build a working FastAPI server step by step, learning one
+> HTTP verb at a time.
 
 > **Time:** ~30 minutes
 
@@ -12,7 +12,7 @@
 ## What You'll Learn
 
 - How to create a FastAPI application
-- How to implement GET, POST, PUT, PATCH, and DELETE
+- How to implement GET, POST, PUT, PATCH, and DELETE — one at a time
 - How to use path parameters and query parameters
 - How to return the correct HTTP status codes
 - How Pydantic validates input automatically
@@ -31,90 +31,102 @@ uvicorn app:app --reload
 ```
 
 The `--reload` flag restarts the server whenever you save a change —
-perfect for development.
+this is key for the step-by-step approach below.
 
 ---
 
-## Explore the API
+## How This Lab Works
 
-Once the server is running, open these URLs in your browser:
+Open [app.py](app.py). You'll see that **only GET is active**. The
+other verbs (POST, PUT, PATCH, DELETE) are commented out. You will
+uncomment them one at a time, save the file, and try each one in the
+browser.
+
+---
+
+## Step 1 — GET (already active)
+
+Open these URLs in your browser:
 
 | URL | What It Shows |
 |---|---|
 | http://127.0.0.1:8000/ | Welcome page — confirms the API is running |
 | http://127.0.0.1:8000/docs | Interactive Swagger UI — try every endpoint! |
-| http://127.0.0.1:8000/redoc | Clean, readable API documentation |
 | http://127.0.0.1:8000/v1/patients | JSON list of all patients |
 
-> **Tip:** The Swagger UI at `/docs` lets you click "Try it out" on any
-> endpoint and send real requests.  This is one of the best features of
-> FastAPI — you get interactive docs for free.
+**Try in the Swagger UI (`/docs`):**
+- Click `GET /v1/patients` → "Try it out" → "Execute"
+- Try filtering: set `gender` to `female` and execute again
+- Click `GET /v1/patients/{patient_id}` → paste an ID from the list → execute
+- Try a fake ID like `nonexistent` — you should get **404 Not Found**
 
 ---
 
-## Try These Requests
+## Step 2 — POST (create a patient)
 
-You can use the Swagger UI, `curl`, or any HTTP client (Thunder Client
-in VS Code is great).
+1. Open `app.py`
+2. Find **STEP 2** and uncomment the `create_patient` function
+3. Save the file (the server restarts automatically)
+4. Go to `/docs` and find the new `POST /v1/patients` endpoint
+5. Click "Try it out", fill in a name/age/gender, and execute
 
-### List all patients
-```bash
-curl http://127.0.0.1:8000/v1/patients
-```
-
-### Filter by condition
-```bash
-curl "http://127.0.0.1:8000/v1/patients?condition=asthma"
-```
-
-### Create a new patient
-```bash
-curl -X POST http://127.0.0.1:8000/v1/patients \
-  -H "Content-Type: application/json" \
-  -d '{"name": "David Lee", "age": 65, "condition": "COPD"}'
-```
-Notice the response is `201 Created` — not `200 OK`.
-
-### Get a specific patient (use an ID from the list)
-```bash
-curl http://127.0.0.1:8000/v1/patients/<paste-id-here>
-```
-
-### Delete a patient
-```bash
-curl -X DELETE http://127.0.0.1:8000/v1/patients/<paste-id-here>
-```
-Notice the response is `204 No Content` — the patient is gone, nothing
-to return.
-
-### Try a patient that doesn't exist
-```bash
-curl http://127.0.0.1:8000/v1/patients/nonexistent-id
-```
-You should get `404 Not Found`.
+**Notice:** The response code is **201 Created**, not 200. This is the
+correct REST status code for creating a new resource.
 
 ---
 
-## Code Walkthrough
+## Step 3 — PUT (replace a patient)
 
-Open [app.py](app.py) and read through the comments.  Key things to
-notice:
+1. Uncomment **STEP 3** in `app.py` and save
+2. In `/docs`, try `PUT /v1/patients/{patient_id}`
+3. You must send **all** fields (name, age, gender) — PUT replaces
+   the entire record
 
-1. **Every endpoint has the correct status code** — `201` for POST,
-   `204` for DELETE, `404` for missing resources.
-2. **Pydantic models validate input** — if someone sends `{"age": -5}`,
-   FastAPI returns `422` automatically.
-3. **Query params handle filtering and pagination** — the list endpoint
-   supports `?condition=X&limit=10&offset=0`.
-4. **Path params identify specific resources** — `/v1/patients/{id}`.
-5. **Response envelope** — every response uses `{data: ..., meta: ...}`
-   for consistency.
+**Try this:** Send a PUT with only `{"name": "New Name"}` — what
+happens? (Hint: FastAPI returns 422 because age and gender are missing.)
 
 ---
 
-## 🎯 Challenges
+## Step 4 — PATCH (update part of a patient)
 
-See the YOUR TURN section at the bottom of [app.py](app.py):
+1. Uncomment **STEP 4** in `app.py` and save
+2. In `/docs`, try `PATCH /v1/patients/{patient_id}`
+3. Send only `{"age": 75}` — the name and gender stay the same!
+
+**PUT vs PATCH:** PUT requires all fields. PATCH only needs the fields
+you want to change. PATCH is more convenient for small updates.
+
+---
+
+## Step 5 — DELETE (remove a patient)
+
+1. Uncomment **STEP 5** in `app.py` and save
+2. In `/docs`, try `DELETE /v1/patients/{patient_id}`
+3. The response is **204 No Content** — the patient is gone
+
+**Try this:** After deleting, try to GET the same patient. You should
+get **404 Not Found**.
+
+---
+
+## Summary of Status Codes You've Seen
+
+| Verb | Success Code | Why |
+|---|---|---|
+| GET | 200 OK | Data retrieved successfully |
+| POST | 201 Created | A new resource was created |
+| PUT | 200 OK | Resource replaced successfully |
+| PATCH | 200 OK | Resource updated successfully |
+| DELETE | 204 No Content | Resource is gone, nothing to return |
+| Any | 404 Not Found | The resource doesn't exist |
+| Any | 422 Unprocessable Entity | Invalid input data |
+
+---
+
+## Step 6 — Challenges
+
+Once you've uncommented all steps, try the challenges at the bottom
+of [app.py](app.py):
 
 1. **(Easy)** Add a `GET /v1/patients/count` endpoint
 2. **(Medium)** Add a `min_age` query parameter to the list endpoint
@@ -125,10 +137,10 @@ See the YOUR TURN section at the bottom of [app.py](app.py):
 
 ## ✅ Done When
 
-- [ ] Your server is running and you can see the Swagger docs at `/docs`
-- [ ] You have tried all 5 HTTP verbs (GET, POST, PUT, PATCH, DELETE)
-- [ ] You got a `201` from POST, `204` from DELETE, `404` from a missing ID
-- [ ] You understand the difference between path params and query params
+- [ ] You ran the server and saw the welcome page at `/`
+- [ ] You uncommented and tried all 5 HTTP verbs one by one
+- [ ] You got a 201 from POST, 204 from DELETE, 404 from a missing ID
+- [ ] You understand the difference between PUT and PATCH
 - [ ] You attempted at least one challenge
 
 ---

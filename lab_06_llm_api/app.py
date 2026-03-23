@@ -71,7 +71,7 @@ HF_TOKEN = os.environ.get("HF_TOKEN", "")
 # The model to use on HuggingFace.  You can swap it for any model
 # available through HuggingFace Inference Providers.
 # Browse models: https://huggingface.co/models?inference_provider=all&sort=trending
-DEFAULT_MODEL = "mistralai/Mistral-7B-Instruct-v0.3"
+DEFAULT_MODEL = "meta-llama/Llama-3.1-8B-Instruct"
 
 # HuggingFace now uses an OpenAI-compatible chat completions endpoint.
 # This is the same format used by OpenAI, making it easy to switch
@@ -387,24 +387,24 @@ def list_models():
     """
     models = [
         {
-            "id": "mistralai/Mistral-7B-Instruct-v0.3",
+            "id": "meta-llama/Llama-3.1-8B-Instruct",
             "description": "Fast, high-quality instruction-following model (default)",
+            "size": "8B parameters",
+        },
+        {
+            "id": "meta-llama/Llama-3.2-1B-Instruct",
+            "description": "Tiny and fast, good for simple tasks",
+            "size": "1B parameters",
+        },
+        {
+            "id": "Qwen/Qwen2.5-7B-Instruct",
+            "description": "Strong multilingual model from Alibaba",
             "size": "7B parameters",
         },
         {
             "id": "google/gemma-2-2b-it",
-            "description": "Lightweight model, good for simple tasks",
+            "description": "Lightweight model from Google",
             "size": "2B parameters",
-        },
-        {
-            "id": "microsoft/Phi-3-mini-4k-instruct",
-            "description": "Small but capable model from Microsoft",
-            "size": "3.8B parameters",
-        },
-        {
-            "id": "meta-llama/Llama-3.2-3B-Instruct",
-            "description": "Meta's latest small Llama model",
-            "size": "3B parameters",
         },
     ]
 
@@ -553,10 +553,10 @@ def play_ui():
             <div>
                 <label>Model</label>
                 <select id="model">
-                    <option value="mistralai/Mistral-7B-Instruct-v0.3" selected>Mistral 7B (default)</option>
+                    <option value="meta-llama/Llama-3.1-8B-Instruct" selected>Llama 3.1 8B (default)</option>
+                    <option value="meta-llama/Llama-3.2-1B-Instruct">Llama 3.2 1B (fast)</option>
+                    <option value="Qwen/Qwen2.5-7B-Instruct">Qwen 2.5 7B</option>
                     <option value="google/gemma-2-2b-it">Gemma 2 2B</option>
-                    <option value="microsoft/Phi-3-mini-4k-instruct">Phi-3 Mini</option>
-                    <option value="meta-llama/Llama-3.2-3B-Instruct">Llama 3.2 3B</option>
                 </select>
             </div>
             <div>

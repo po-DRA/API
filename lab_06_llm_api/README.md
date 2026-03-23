@@ -148,7 +148,7 @@ Expected response (201 Created):
     "id": "abc-123...",
     "note": "Patient presents with acute chest pain...",
     "explanation": "This note suggests an urgent case. ST-elevation on ECG indicates a possible myocardial infarction...",
-    "model_used": "mistralai/Mistral-7B-Instruct-v0.3",
+    "model_used": "meta-llama/Llama-3.1-8B-Instruct",
     "temperature": 0.7,
     "max_tokens": 150,
     "cached": false,
@@ -209,7 +209,7 @@ curl http://127.0.0.1:8001/v1/models
 ```bash
 curl -X POST http://127.0.0.1:8001/v1/explain \
   -H "Content-Type: application/json" \
-  -d '{"note": "Severe sepsis with lactate 4.2 and falling blood pressure", "model": "google/gemma-2-2b-it"}'
+  -d '{"note": "Severe sepsis with lactate 4.2 and falling blood pressure", "model": "Qwen/Qwen2.5-7B-Instruct"}'
 ```
 
 ---

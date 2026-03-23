@@ -178,7 +178,7 @@ Response:
   },
   "meta": {
     "ml_model": "TF-IDF + LogReg",
-    "llm_model": "mistralai/Mistral-7B-Instruct-v0.3"
+    "llm_model": "meta-llama/Llama-3.1-8B-Instruct"
   }
 }
 ```

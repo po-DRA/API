@@ -37,14 +37,38 @@ this is key for the step-by-step approach below.
 
 ## How This Lab Works
 
-Open [app.py](app.py). You'll see that **only GET is active**. The
-other verbs (POST, PUT, PATCH, DELETE) are commented out. You will
-uncomment them one at a time, save the file, and try each one in the
-browser.
+Open [app.py](app.py). Start with a dead-simple "add two numbers"
+endpoint, then move on to a patient API where you uncomment one HTTP
+verb at a time.
 
 ---
 
-## Step 1 — GET (already active)
+## Step 0 — Your very first API (add two numbers)
+
+Open http://127.0.0.1:8000/play in your browser. You'll see a tiny
+web page with two number inputs and a "Calculate" button.
+
+**Try it:**
+1. Enter two numbers and click **Calculate**
+2. Watch the result appear — and notice the `GET /add?a=5&b=3` call
+   shown below the button
+3. Now open http://127.0.0.1:8000/add?a=10&b=20 directly in your
+   browser — you'll see the raw JSON response
+
+**What just happened?**
+- The web page (client) called your API at `/add?a=5&b=3`
+- Your FastAPI server (server) ran the `add()` function
+- It returned `{"a": 5, "b": 3, "result": 8}` as JSON
+- The web page displayed the result
+
+That's it. That's an API. A function with a URL.
+
+Now open http://127.0.0.1:8000/docs — you'll see the same `/add`
+endpoint in FastAPI's interactive Swagger UI. Try it there too.
+
+---
+
+## Step 1 — GET patients (already active)
 
 Open these URLs in your browser:
 
@@ -137,7 +161,8 @@ of [app.py](app.py):
 
 ## ✅ Done When
 
-- [ ] You ran the server and saw the welcome page at `/`
+- [ ] You tried the add-two-numbers app at `/play`
+- [ ] You saw the raw JSON at `/add?a=5&b=3` in the browser
 - [ ] You uncommented and tried all 5 HTTP verbs one by one
 - [ ] You got a 201 from POST, 204 from DELETE, 404 from a missing ID
 - [ ] You understand the difference between PUT and PATCH

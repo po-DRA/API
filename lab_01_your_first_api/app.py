@@ -1,17 +1,16 @@
 """
 Lab 01 — Your First REST API
 =============================
-A FastAPI server that manages patients. Start with just GET, then
-uncomment one section at a time to learn each HTTP verb.
+A FastAPI server that teaches REST step by step.
 
 How to run:
     cd lab_01_your_first_api
     uvicorn app:app --reload
 
-Then open http://127.0.0.1:8000/docs to explore the interactive docs.
-
 How to work through this file:
-    1. Run the server as-is — only GET works. Try it in /docs.
+    0. Run the server. Open http://127.0.0.1:8000/play to try
+       the add-two-numbers mini-app — your first API call!
+    1. Explore the patient GET endpoints at /docs.
     2. Uncomment STEP 2 (POST), save, and try creating a patient.
     3. Uncomment STEP 3 (PUT), save, and try replacing a patient.
     4. Uncomment STEP 4 (PATCH), save, and try a partial update.
@@ -28,6 +27,7 @@ Reference:
 from uuid import uuid4
 
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
 # ── Create the FastAPI application ──────────────────────────────────
@@ -44,9 +44,152 @@ def root():
     """Welcome page — confirms the API is running."""
     return {
         "message": "Patient Management API is running!",
+        "try_first": "/play",
         "docs": "/docs",
         "patients": "/v1/patients",
     }
+
+
+# =====================================================================
+#  STEP 0 — Your very first API endpoint + a mini UI to try it
+# =====================================================================
+# This is the simplest possible API: send two numbers, get the sum.
+# Open http://127.0.0.1:8000/play to try it with a visual interface.
+#
+# What this teaches:
+#   - An API endpoint is just a Python function with a URL
+#   - Query parameters (?a=5&b=3) pass data to the function
+#   - The function returns JSON automatically
+#   - A UI (or any client) can call this endpoint via HTTP
+# =====================================================================
+
+
+@app.get("/add", status_code=200, tags=["Step 0 — Try It"])
+def add(a: int, b: int):
+    """
+    Add two numbers. Try it:  /add?a=5&b=3
+
+    This is the simplest API endpoint you can build.
+    - `a` and `b` are query parameters (they go after the ? in the URL)
+    - FastAPI converts them to integers automatically
+    - The result is returned as JSON
+    """
+    return {"a": a, "b": b, "result": a + b}
+
+
+@app.get("/play", response_class=HTMLResponse, tags=["Step 0 — Try It"])
+def play():
+    """
+    A tiny web page to try the /add endpoint visually.
+
+    This shows how a frontend (HTML + JavaScript) calls a backend (API).
+    The browser is the CLIENT. Your FastAPI server is the SERVER.
+    When you click "Calculate", JavaScript calls GET /add?a=...&b=...
+    and displays the JSON response.
+    """
+    return """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>My First API</title>
+        <style>
+            body {
+                font-family: system-ui, sans-serif;
+                max-width: 500px;
+                margin: 80px auto;
+                padding: 0 20px;
+                background: #f8f9fa;
+            }
+            h1 { color: #2c3e50; }
+            .card {
+                background: white;
+                border-radius: 12px;
+                padding: 30px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            }
+            input {
+                width: 80px;
+                padding: 10px;
+                font-size: 24px;
+                text-align: center;
+                border: 2px solid #ddd;
+                border-radius: 8px;
+            }
+            button {
+                padding: 10px 24px;
+                font-size: 18px;
+                background: #3498db;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+            }
+            button:hover { background: #2980b9; }
+            .result {
+                margin-top: 20px;
+                padding: 15px;
+                background: #eafaf1;
+                border-radius: 8px;
+                font-size: 18px;
+                display: none;
+            }
+            .api-call {
+                margin-top: 12px;
+                padding: 10px;
+                background: #f5f5f5;
+                border-radius: 6px;
+                font-family: monospace;
+                font-size: 13px;
+                color: #666;
+                display: none;
+            }
+            .row { display: flex; align-items: center; gap: 12px; margin: 16px 0; }
+            .plus { font-size: 28px; color: #888; }
+        </style>
+    </head>
+    <body>
+        <h1>My First API</h1>
+        <div class="card">
+            <p>Enter two numbers. When you click <b>Calculate</b>, the browser
+               calls your API at <code>/add?a=...&b=...</code> and shows the
+               JSON response.</p>
+            <div class="row">
+                <input type="number" id="a" value="5">
+                <span class="plus">+</span>
+                <input type="number" id="b" value="3">
+                <button onclick="callAPI()">Calculate</button>
+            </div>
+            <div class="result" id="result"></div>
+            <div class="api-call" id="api-call"></div>
+        </div>
+        <p style="margin-top:20px; color:#888; font-size:14px;">
+            Now open <a href="/docs">/docs</a> to see the same endpoint
+            in FastAPI's interactive Swagger UI.
+        </p>
+        <script>
+            async function callAPI() {
+                const a = document.getElementById('a').value;
+                const b = document.getElementById('b').value;
+                const url = `/add?a=${a}&b=${b}`;
+
+                // Show which URL we're calling (so learners see the API call)
+                const apiDiv = document.getElementById('api-call');
+                apiDiv.style.display = 'block';
+                apiDiv.textContent = 'GET ' + url;
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                const resultDiv = document.getElementById('result');
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = `<b>${data.a} + ${data.b} = ${data.result}</b>`
+                    + `<br><span style="color:#888; font-size:14px;">`
+                    + `API returned: ${JSON.stringify(data)}</span>`;
+            }
+        </script>
+    </body>
+    </html>
+    """
 
 
 # ── Patient model ──────────────────────────────────────────────────

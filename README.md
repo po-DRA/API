@@ -25,6 +25,19 @@ A **Clinical Urgency Prediction API** that:
 4. Stores predictions for later retrieval
 5. Is deployed and accessible via the internet
 
+```mermaid
+flowchart LR
+    A[Clinical Note] -->|POST /v1/predictions| B[FastAPI Server]
+    B --> C[TF-IDF + LogReg Model]
+    C --> B
+    B -->|201 Created| D["{ prediction: urgent,\n confidence: 0.94 }"]
+
+    style A fill:#e8f4f8,stroke:#2980b9
+    style B fill:#fef9e7,stroke:#f39c12
+    style C fill:#fadbd8,stroke:#e74c3c
+    style D fill:#d5f5e3,stroke:#27ae60
+```
+
 ---
 
 ## Why a REST API (and Not Just pip install)?

@@ -122,6 +122,41 @@ want to do* with it.
 
 ---
 
+## How a Request-Response Cycle Works
+
+Every time you call an API, the same cycle happens:
+
+```mermaid
+sequenceDiagram
+    participant C as Client (Browser, curl, App)
+    participant S as Server (FastAPI)
+    participant M as Model / Database
+
+    C->>S: 1. HTTP Request (verb + URL + body)
+    Note right of C: POST /v1/predictions<br/>{"note": "chest pain..."}
+
+    S->>S: 2. Validate input (Pydantic)
+    alt Invalid input
+        S-->>C: 422 Unprocessable Entity
+    end
+
+    S->>M: 3. Process (query DB or run model)
+    M-->>S: 4. Result
+
+    S-->>C: 5. HTTP Response (status code + body)
+    Note left of S: 201 Created<br/>{"data": {"prediction": "urgent"}}
+```
+
+**In plain English:**
+1. The **client** sends a request — the HTTP verb says *what to do*, the URL says *to what*, and the body carries *the data*
+2. The **server** validates the input — bad data gets rejected immediately with 422
+3. The server **processes** the request — querying a database, running a model, etc.
+4. The server sends back a **response** — a status code (201, 404, etc.) and a JSON body
+
+This exact cycle happens whether you're using curl, a browser, a React dashboard, or a mobile app. That's the power of REST — the client and server don't care about each other's technology.
+
+---
+
 ## HTTP Status Codes — What the Server Tells You
 
 Status codes are the server's way of saying what happened.  They are

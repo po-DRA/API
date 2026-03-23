@@ -379,40 +379,50 @@ def explain_note(request: ExplainRequest):
 @app.get("/v1/models", status_code=200, tags=["LLM"])
 def list_models():
     """
-    List some recommended HuggingFace models you can use.
+    List chat models available through HuggingFace Inference Providers.
 
-    These are models that work well with the free Inference API.
-    You can use any model ID from https://huggingface.co/models
-    by passing it in the 'model' field of your request.
+    Fetches the list live from HuggingFace — not hardcoded!
+    Falls back to a curated list if the API call fails.
     """
-    models = [
-        {
-            "id": "meta-llama/Llama-3.1-8B-Instruct",
-            "description": "Fast, high-quality instruction-following model (default)",
-            "size": "8B parameters",
-        },
-        {
-            "id": "meta-llama/Llama-3.2-1B-Instruct",
-            "description": "Tiny and fast, good for simple tasks",
-            "size": "1B parameters",
-        },
-        {
-            "id": "Qwen/Qwen2.5-7B-Instruct",
-            "description": "Strong multilingual model from Alibaba",
-            "size": "7B parameters",
-        },
-        {
-            "id": "meta-llama/Llama-3.2-3B-Instruct",
-            "description": "Small and capable Llama model",
-            "size": "3B parameters",
-        },
-    ]
+    # Try fetching live from HuggingFace
+    try:
+        response = requests.get(
+            "https://router.huggingface.co/v1/models",
+            headers={"Authorization": f"Bearer {HF_TOKEN}"},
+            timeout=10,
+        )
+        if response.status_code == 200:
+            all_models = response.json().get("data", [])
+            # Filter to chat/instruct models only
+            chat_models = [
+                {"id": m["id"], "owned_by": m.get("owned_by", "unknown")}
+                for m in all_models
+                if "instruct" in m["id"].lower() or "chat" in m["id"].lower()
+            ]
+            return {
+                "data": chat_models if chat_models else all_models[:20],
+                "meta": {
+                    "total": len(chat_models if chat_models else all_models),
+                    "source": "live",
+                    "note": "Pass any model ID in the 'model' field of POST /v1/explain",
+                },
+            }
+    except (requests.exceptions.RequestException, ValueError):
+        pass
 
+    # Fallback: curated list of models known to work
+    fallback = [
+        {"id": "meta-llama/Llama-3.1-8B-Instruct", "owned_by": "meta-llama"},
+        {"id": "meta-llama/Llama-3.2-1B-Instruct", "owned_by": "meta-llama"},
+        {"id": "meta-llama/Llama-3.2-3B-Instruct", "owned_by": "meta-llama"},
+        {"id": "Qwen/Qwen2.5-7B-Instruct", "owned_by": "Qwen"},
+    ]
     return {
-        "data": models,
+        "data": fallback,
         "meta": {
-            "note": "Pass any model ID in the 'model' field of POST /v1/explain",
-            "browse": "https://huggingface.co/models?pipeline_tag=text-generation",
+            "total": len(fallback),
+            "source": "fallback",
+            "note": "Could not fetch live list. These are known working models.",
         },
     }
 

@@ -157,6 +157,59 @@ This exact cycle happens whether you're using curl, a browser, a React dashboard
 
 ---
 
+## Try It Yourself — Testing APIs with curl
+
+`curl` is a command-line tool that sends HTTP requests. It comes
+pre-installed on macOS, Linux, and Windows 10+. Think of it as a
+browser for your terminal — but instead of rendering a web page, it
+shows you the raw response.
+
+### Check if any API is alive
+
+```bash
+# Hit a public API — no setup needed
+curl https://httpbin.org/get
+```
+
+You should see a JSON response. If you do, the API is working.
+
+### Useful curl flags
+
+```bash
+# See the status code and headers (not just the body)
+curl -v https://httpbin.org/get
+
+# Send a POST request with JSON data
+curl -X POST https://httpbin.org/post \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Jane", "age": 45}'
+
+# Just show the HTTP status code (quick health check)
+curl -o /dev/null -s -w "%{http_code}\n" https://httpbin.org/get
+```
+
+### Once you build your own API (Lab 01)
+
+```bash
+# Check if your server is running
+curl http://127.0.0.1:8000/
+
+# List all patients
+curl http://127.0.0.1:8000/v1/patients
+
+# Create a patient (POST)
+curl -X POST http://127.0.0.1:8000/v1/patients \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Jane Doe", "age": 45, "gender": "female"}'
+```
+
+> **Tip:** You don't need curl to complete this tutorial — the FastAPI
+> Swagger UI at `/docs` lets you do everything in the browser. But
+> knowing curl is useful for quick checks, scripting, and debugging
+> any API you encounter in the wild.
+
+---
+
 ## HTTP Status Codes — What the Server Tells You
 
 Status codes are the server's way of saying what happened.  They are

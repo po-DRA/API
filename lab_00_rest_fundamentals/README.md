@@ -1,4 +1,4 @@
-# Lab 00 — REST Fundamentals
+# Lab 00: REST Fundamentals
 
 > **Goal:** Understand what REST is, how HTTP works, and why these ideas
 > matter before you write a single line of API code.
@@ -11,21 +11,21 @@
 
 Imagine you have trained a brilliant model that predicts clinical urgency
 from free-text notes.  Right now it lives inside a Jupyter notebook on
-your laptop.  To let **anyone else** use it — a colleague, a dashboard,
-a mobile app, another service — you need to wrap it in an **API**
+your laptop.  To let **anyone else** use it - a colleague, a dashboard,
+a mobile app, another service - you need to wrap it in an **API**
 (Application Programming Interface).
 
 > 📖 Read more: [What is an API? (IBM)](https://www.ibm.com/topics/api)
 
-### API vs. pip install — When to Use Which
+### API vs. pip install: When to Use Which
 
 | | **pip install (library)** | **REST API (service)** |
 |---|---|---|
-| **Who uses it** | Python developers only | Anyone — Python, JavaScript, mobile apps, curl |
+| **Who uses it** | Python developers only | Anyone - Python, JavaScript, mobile apps, curl |
 | **Where it runs** | On the caller's machine | On a server you control |
-| **Dependencies** | Caller must install everything (scikit-learn, pandas…) | Caller needs only HTTP — zero setup |
+| **Dependencies** | Caller must install everything (scikit-learn, pandas…) | Caller needs only HTTP - zero setup |
 | **Updates** | Every user must `pip install --upgrade` | You deploy once; everyone gets the new version instantly |
-| **Access control** | None — anyone with the package can use it | You can add API keys, rate limits, logging |
+| **Access control** | None - anyone with the package can use it | You can add API keys, rate limits, logging |
 | **Data privacy** | Data stays on the caller's machine | Data is sent to your server (you control security) |
 | **Best for** | Reusable utilities, offline analysis | Serving predictions, dashboards, cross-language integrations |
 
@@ -43,11 +43,11 @@ without asking every clinical team to reinstall software.
 ## The 6 REST Principles (in Plain English)
 
 REST stands for **RE**presentational **S**tate **T**ransfer.  It is not a
-protocol or a library — it is a set of *architectural principles* that
+protocol or a library. It is a set of *architectural principles* that
 make APIs predictable, scalable, and easy to use.
 
 > 📖 Keep the [ByteByteGo REST API Cheatsheet](https://bytebytego.com/guides/rest-api-cheatsheet/)
-> open as you read — it's a great visual companion.
+> open as you read. It's a great visual companion.
 
 ### 1. Client–Server Separation
 
@@ -67,7 +67,7 @@ server needs.  The server does not remember previous requests.
 
 *Why this matters:* If a nurse sends two prediction requests, the
 server doesn't need to remember the first one to handle the second.
-This makes scaling easy — you can run 10 copies of the server and any
+This makes scaling easy: you can run 10 copies of the server and any
 copy can handle any request.
 
 ### 3. Cacheability
@@ -85,7 +85,7 @@ REST API.
 ### 5. Layered System
 
 Between the client and server there can be load balancers, caches,
-authentication proxies — the client doesn't know or care.
+authentication proxies. The client doesn't know or care.
 
 ### 6. Code on Demand (optional)
 
@@ -94,7 +94,7 @@ This is rarely used in data-science APIs, so don't worry about it.
 
 ---
 
-## HTTP Verbs — The 5 Actions You Can Take
+## HTTP Verbs: The 5 Actions You Can Take
 
 Think of a REST API as a filing cabinet.  The **URL** tells you *which
 drawer* (resource) you want.  The **HTTP verb** tells you *what you
@@ -117,7 +117,7 @@ want to do* with it.
   ID).  PUT *replaces* an existing item (the client knows the ID).
 - **PUT vs. PATCH:** PUT sends the *complete* new version.  PATCH sends
   only the fields that changed.
-- **DELETE returns 204** — this means "success, but there is nothing to
+- **DELETE returns 204**: this means "success, but there is nothing to
   send back" (the thing is gone!).
 
 ---
@@ -148,26 +148,26 @@ sequenceDiagram
 ```
 
 **In plain English:**
-1. The **client** sends a request — the HTTP verb says *what to do*, the URL says *to what*, and the body carries *the data*
-2. The **server** validates the input — bad data gets rejected immediately with 422
-3. The server **processes** the request — querying a database, running a model, etc.
-4. The server sends back a **response** — a status code (201, 404, etc.) and a JSON body
+1. The **client** sends a request. The HTTP verb says *what to do*, the URL says *to what*, and the body carries *the data*.
+2. The **server** validates the input. Bad data gets rejected immediately with 422.
+3. The server **processes** the request: querying a database, running a model, etc.
+4. The server sends back a **response**: a status code (201, 404, etc.) and a JSON body.
 
-This exact cycle happens whether you're using curl, a browser, a React dashboard, or a mobile app. That's the power of REST — the client and server don't care about each other's technology.
+This exact cycle happens whether you're using curl, a browser, a React dashboard, or a mobile app. That's the power of REST: the client and server don't care about each other's technology.
 
 ---
 
-## Try It Yourself — Testing APIs with curl
+## Try It Yourself: Testing APIs with curl
 
 `curl` is a command-line tool that sends HTTP requests. It comes
 pre-installed on macOS, Linux, and Windows 10+. Think of it as a
-browser for your terminal — but instead of rendering a web page, it
+browser for your terminal, but instead of rendering a web page, it
 shows you the raw response.
 
 ### Check if any API is alive
 
 ```bash
-# Hit a public API — no setup needed
+# Hit a public API - no setup needed
 curl https://httpbin.org/get
 ```
 
@@ -203,14 +203,14 @@ curl -X POST http://127.0.0.1:8000/v1/patients \
   -d '{"name": "Jane Doe", "age": 45, "gender": "female"}'
 ```
 
-> **Tip:** You don't need curl to complete this tutorial — the FastAPI
+> **Tip:** You don't need curl to complete this tutorial. The FastAPI
 > Swagger UI at `/docs` lets you do everything in the browser. But
 > knowing curl is useful for quick checks, scripting, and debugging
 > any API you encounter in the wild.
 
 ---
 
-## HTTP Status Codes — What the Server Tells You
+## HTTP Status Codes: What the Server Tells You
 
 Status codes are the server's way of saying what happened.  They are
 grouped by the first digit:
@@ -231,8 +231,8 @@ grouped by the first digit:
 | `400` | Bad Request | Request is malformed or missing fields | Sending JSON without a required `note` field |
 | `401` | Unauthorized | No credentials provided | Calling the API without an API key |
 | `403` | Forbidden | Credentials valid, but not enough permission | A read-only user trying to DELETE |
-| `404` | Not Found | The resource doesn't exist | `GET /v1/patients/99999` — no such patient |
-| `422` | Unprocessable Entity | JSON is valid but values are wrong | `{"age": -5}` — age can't be negative |
+| `404` | Not Found | The resource doesn't exist | `GET /v1/patients/99999` - no such patient |
+| `422` | Unprocessable Entity | JSON is valid but values are wrong | `{"age": -5}` - age can't be negative |
 | `500` | Internal Server Error | Bug in the server code | Unhandled exception in your Python code |
 | `503` | Service Unavailable | Server is overloaded or down | Model file missing; API can't serve predictions |
 
@@ -305,12 +305,12 @@ This is a common point of confusion.  Here's the simple rule:
 
 Before building, it helps to understand the typical stages an API goes through:
 
-1. **Design** — Define endpoints, request/response shapes (OpenAPI spec)
-2. **Build** — Implement with a framework like FastAPI
-3. **Test** — Automated tests with pytest
-4. **Deploy** — Ship to Render, HuggingFace Spaces, or Docker
-5. **Monitor** — Track usage, errors, latency
-6. **Iterate** — Version and improve
+1. **Design:** Define endpoints, request/response shapes (OpenAPI spec)
+2. **Build:** Implement with a framework like FastAPI
+3. **Test:** Automated tests with pytest
+4. **Deploy:** Ship to Render, HuggingFace Spaces, or Docker
+5. **Monitor:** Track usage, errors, latency
+6. **Iterate:** Version and improve
 
 > 📖 Deep dive: [API Lifecycle (IBM)](https://www.ibm.com/think/topics/api-lifecycle)
 >
@@ -325,9 +325,9 @@ OpenAPI is a standard way to describe your endpoints so that tools can
 generate documentation, client libraries, and tests.
 
 When you run a FastAPI server, visit:
-- `/docs` — interactive Swagger UI (try endpoints in the browser!)
-- `/redoc` — clean, readable docs
-- `/openapi.json` — the raw spec
+- `/docs` - interactive Swagger UI (try endpoints in the browser!)
+- `/redoc` - clean, readable docs
+- `/openapi.json` - the raw spec
 
 > 📖 More about OpenAPI:
 > [About OpenAPI (Swagger)](https://swagger.io/docs/specification/about/) |
@@ -335,7 +335,7 @@ When you run a FastAPI server, visit:
 
 ---
 
-## 📝 Quiz — Test Your Understanding
+## 📝 Quiz: Test Your Understanding
 
 Answer these questions, then check your answers in
 [solutions/lab_00_answers.md](../solutions/lab_00_answers.md).

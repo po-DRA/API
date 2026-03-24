@@ -1,4 +1,4 @@
-# Lab 03 — Expose the Model as a REST API
+# Lab 03: Expose the Model as a REST API
 
 > **Goal:** Serve the trained urgency classifier as a REST API so
 > anyone can send a clinical note and get a prediction back.
@@ -6,7 +6,7 @@
 > **Time:** ~30 minutes
 
 > **Prerequisites:**
-> [Lab 02 — Train the Model](../lab_02_train_model/README.md) (model
+> [Lab 02: Train the Model](../lab_02_train_model/README.md) (model
 > must be trained first)
 
 ---
@@ -92,21 +92,21 @@ curl http://127.0.0.1:8000/v1/model/info
 
 ## Key Architecture Decisions
 
-Read through [app.py](app.py) — every decision is commented.  The
+Read through [app.py](app.py). Every decision is commented.  The
 highlights:
 
-1. **Model loaded once at startup** — not on every request.  Loading a
+1. **Model loaded once at startup**, not on every request.  Loading a
    model from disk can take hundreds of milliseconds.  Doing it once
    saves all that time for every subsequent request.
 
-2. **Predictions stored with UUIDs** — clients can retrieve, list, and
+2. **Predictions stored with UUIDs:** clients can retrieve, list, and
    delete them later.  This is REST: predictions are a *resource*.
 
-3. **Consistent response envelope** — every response is
+3. **Consistent response envelope:** every response is
    `{data: ..., meta: ...}`.  Clients always know where to find the
    payload.
 
-4. **503 when model missing** — the API starts even without a model,
+4. **503 when model missing:** the API starts even without a model,
    but prediction endpoints return `503 Service Unavailable` with a
    helpful message.
 

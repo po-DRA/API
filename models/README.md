@@ -9,4 +9,4 @@ After training you will see:
 | File | What it is |
 |---|---|
 | `urgency_classifier.joblib` | The trained scikit-learn Pipeline (TF-IDF + Logistic Regression) |
-| `model_meta.json` | Metadata — accuracy, training date, feature count, class labels |
+| `model_meta.json` | Metadata: accuracy, training date, feature count, class labels |

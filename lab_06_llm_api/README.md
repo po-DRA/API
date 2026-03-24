@@ -1,4 +1,4 @@
-# Lab 06 — Build an LLM-Powered API
+# Lab 06: Build an LLM-Powered API
 
 > **Goal:** Learn to call an external LLM API (HuggingFace) and build
 > a wrapper API that adds prompt engineering, rate limiting, and caching.
@@ -6,7 +6,7 @@
 > **Time:** ~30 minutes
 
 > **Prerequisites:**
-> [Lab 05 — Deploy](../lab_05_deploy/README.md)
+> [Lab 05: Deploy](../lab_05_deploy/README.md)
 
 ---
 
@@ -23,7 +23,7 @@
 
 ## Why a Wrapper API?
 
-In Labs 01-05, you **built** an API. Now you'll **consume** one — and
+In Labs 01-05, you **built** an API. Now you'll **consume** one, and
 wrap it in your own API. This is how most AI products work:
 
 ```mermaid
@@ -62,12 +62,12 @@ sequenceDiagram
    (free, no credit card needed)
 2. **Create a token** at
    [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens/new?ownUserPermissions=inference.serverless.write&tokenType=fineGrained)
-   — choose "Fine-grained" with "Make calls to Inference Providers"
+   - choose "Fine-grained" with "Make calls to Inference Providers"
 3. **Copy the token** (starts with `hf_...`)
 
 ### 2. Set the Token (using a .env file)
 
-The easiest way — create a `.env` file in the project root:
+The easiest way is to create a `.env` file in the project root:
 
 ```bash
 # Copy the template
@@ -77,7 +77,7 @@ cp .env.example .env
 # It should look like:  HF_TOKEN=hf_abc123...
 ```
 
-The app loads `.env` automatically at startup — no need to `export`
+The app loads `.env` automatically at startup, so there is no need to `export`
 anything.
 
 **Alternative:** set it directly in your terminal (resets when you
@@ -177,16 +177,16 @@ curl -X POST http://127.0.0.1:8001/v1/explain \
 
 ### Step 4: Check caching
 
-Send the same note twice — the second response will say `"cached": true`
+Send the same note twice. The second response will say `"cached": true`
 and return instantly:
 
 ```bash
-# First call — hits the LLM (slow)
+# First call - hits the LLM (slow)
 curl -X POST http://127.0.0.1:8001/v1/explain \
   -H "Content-Type: application/json" \
   -d '{"note": "Routine annual wellness check. All vitals normal."}'
 
-# Second call — from cache (instant!)
+# Second call - from cache (instant!)
 curl -X POST http://127.0.0.1:8001/v1/explain \
   -H "Content-Type: application/json" \
   -d '{"note": "Routine annual wellness check. All vitals normal."}'
@@ -222,11 +222,11 @@ curl -X POST http://127.0.0.1:8001/v1/explain \
 | **max_tokens** | Maximum response length | 10 = very short | 500 = detailed |
 
 **Temperature intuition:**
-- `0.1` — The LLM picks the most likely next word every time. Same
+- `0.1` - The LLM picks the most likely next word every time. Same
   input = same output. Good for factual tasks.
-- `0.7` — Some randomness. Good balance for most tasks (this is the
+- `0.7` - Some randomness. Good balance for most tasks (this is the
   default).
-- `1.5` — Very random. Different output each time. Good for creative
+- `1.5` - Very random. Different output each time. Good for creative
   tasks, bad for clinical analysis.
 
 Try the same note with temperature 0.1 and 1.5 to see the difference!
@@ -235,30 +235,30 @@ Try the same note with temperature 0.1 and 1.5 to see the difference!
 
 ## Key Architecture Decisions
 
-Read through [app.py](app.py) — every decision is commented. The
+Read through [app.py](app.py). Every decision is commented. The
 highlights:
 
-1. **Wrapper pattern** — Your API adds value on top of the raw LLM API:
+1. **Wrapper pattern:** Your API adds value on top of the raw LLM API:
    prompt engineering, rate limiting, caching, error handling. Clients
    just send a note and get back an explanation.
 
-2. **API key in environment variable** — Never hardcoded, never
+2. **API key in environment variable.** Never hardcoded, never
    committed to git. This is the #1 security rule for API keys.
 
-3. **Rate limiting** — Simple in-memory counter that enforces a max
+3. **Rate limiting:** Simple in-memory counter that enforces a max
    requests per minute. Returns HTTP 429 (Too Many Requests) when
-   exceeded — the standard REST status code for rate limiting.
+   exceeded, which is the standard REST status code for rate limiting.
 
-4. **Response caching** — Identical requests return cached results
+4. **Response caching:** Identical requests return cached results
    instantly. Saves API quota and reduces latency.
 
-5. **Error handling for external APIs** — Handles timeouts (504),
+5. **Error handling for external APIs.** Handles timeouts (504),
    connection errors (502), auth failures (503), and rate limits (429)
    from HuggingFace.
 
 ---
 
-## ML Model vs LLM — When to Use Which?
+## ML Model vs LLM: When to Use Which?
 
 | | Your ML Model (Lab 03) | LLM (Lab 06) |
 |---|---|---|
@@ -286,14 +286,14 @@ This works great for learning, but it has limitations:
 
 | | Python dict (this lab) | Redis (production) |
 |---|---|---|
-| **Setup** | Nothing — just works | Install and run Redis server |
+| **Setup** | Nothing - just works | Install and run Redis server |
 | **Persistence** | Lost when the app restarts | Survives restarts |
 | **Multiple workers** | Each worker has its own cache | Shared across all workers |
 | **Memory** | Grows forever (no eviction) | Auto-evicts old entries (LRU) |
 | **Best for** | Learning, prototyping | Production APIs |
 
 In production, you'd replace the dict with
-[Redis](https://redis.io/) — an in-memory data store designed for
+[Redis](https://redis.io/), an in-memory data store designed for
 exactly this use case:
 
 ```python
@@ -311,19 +311,19 @@ cached = cache.get(cache_key)
 
 Redis also powers rate limiting, session storage, and real-time
 leaderboards. It's one of the most widely used tools in API
-infrastructure — a great next topic to explore.
+infrastructure, and a great next topic to explore.
 
 ---
 
 ## Testing & Evaluating LLM Outputs
 
-LLMs are non-deterministic — you can't assert exact strings like you would
+LLMs are non-deterministic, so you can't assert exact strings like you would
 with a traditional function. Instead, we test **properties** of the output:
 Is it relevant? The right length? Does it address urgency? Is it consistent?
 
 The test suite in [test_app.py](test_app.py) has two parts:
 
-### Part 1 — API Tests (fast, no token needed)
+### Part 1: API Tests (fast, no token needed)
 
 These mock the HuggingFace call and test your FastAPI layer:
 
@@ -342,7 +342,7 @@ These mock the HuggingFace call and test your FastAPI layer:
 pytest lab_06_llm_api/test_app.py -m "not llm_eval"
 ```
 
-### Part 2 — LLM Output Evals (slow, needs HF_TOKEN)
+### Part 2: LLM Output Evals (slow, needs HF_TOKEN)
 
 These call the real LLM and check output quality:
 

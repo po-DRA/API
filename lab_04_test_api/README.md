@@ -1,4 +1,4 @@
-# Lab 04 — Test the API
+# Lab 04: Test the API
 
 > **Goal:** Write automated tests for the prediction API using pytest
 > and FastAPI's TestClient.
@@ -6,7 +6,7 @@
 > **Time:** ~25 minutes
 
 > **Prerequisites:**
-> [Lab 03 — Expose the Model](../lab_03_expose_model/README.md)
+> [Lab 03: Expose the Model](../lab_03_expose_model/README.md)
 
 ---
 
@@ -21,13 +21,13 @@
 
 ## Why Test an API?
 
-1. **Catch bugs before deployment** — a broken endpoint in production
+1. **Catch bugs before deployment.** A broken endpoint in production
    could affect clinical workflows.
-2. **Verify REST conventions** — did you return 201 for POST? 204 for
+2. **Verify REST conventions.** Did you return 201 for POST? 204 for
    DELETE? Tests enforce this.
-3. **Tests ARE documentation** — a new team member can read the tests
+3. **Tests ARE documentation.** A new team member can read the tests
    to understand exactly what each endpoint does.
-4. **Refactor with confidence** — change the code, run the tests, know
+4. **Refactor with confidence.** Change the code, run the tests, know
    nothing is broken.
 
 ---
@@ -85,16 +85,16 @@ test_create_prediction_returns_201          SKIPPED (Model not trained)
 
 Open [test_api.py](test_api.py) and notice:
 
-1. **TestClient** — lets you test without starting a real server.
+1. **TestClient** lets you test without starting a real server.
    It simulates HTTP requests in-process.
 
-2. **`clear_predictions` fixture** — resets the database before each
+2. **`clear_predictions` fixture** resets the database before each
    test so tests don't depend on each other.
 
-3. **`skip_without_model`** — tests that need the model are skipped
+3. **`skip_without_model`** - tests that need the model are skipped
    (not failed) if the model isn't trained yet.
 
-4. **Class-based grouping** — tests are organized by HTTP verb for
+4. **Class-based grouping** - tests are organized by HTTP verb for
    readability.
 
 ---

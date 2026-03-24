@@ -1,11 +1,11 @@
-# Lab 02 — Train the Model
+# Lab 02: Train the Model
 
 > **Goal:** Train a clinical urgency classifier that you will expose as
 > a REST API in the next lab.
 
 > **Time:** ~20 minutes
 
-> **Prerequisites:** [Lab 01 — Your First API](../lab_01_your_first_api/README.md)
+> **Prerequisites:** [Lab 01: Your First API](../lab_01_your_first_api/README.md)
 
 ---
 
@@ -70,8 +70,8 @@ You should see output like:
 1. **Loaded** `clinical_notes.csv` into a DataFrame
 2. **Split** into 80% train / 20% test (stratified by label)
 3. **Built a Pipeline** with:
-   - `TfidfVectorizer` — converts text to numerical TF-IDF features
-   - `LogisticRegression` — classifies based on those features
+   - `TfidfVectorizer` - converts text to numerical TF-IDF features
+   - `LogisticRegression` - classifies based on those features
 4. **Trained** the pipeline on the training set
 5. **Evaluated** on the held-out test set
 6. **Saved** the pipeline to `models/urgency_classifier.joblib`
@@ -92,7 +92,7 @@ predictions later.
 If you completed the [ci-cd-template tutorial](https://github.com/po-DRA/ci-cd-template),
 you already trained a model using a similar pattern.  The key
 difference here is that we are training the model so we can **serve it
-as an API** — not just use it in a notebook.
+as an API**, not just use it in a notebook.
 
 The training script is inspired by:
 [ci-cd-template/scripts/train.py](https://github.com/po-DRA/ci-cd-template/blob/main/scripts/train.py)

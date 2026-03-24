@@ -1,6 +1,6 @@
 # REST-API-Builder
 
-A self-paced, hands-on tutorial that teaches you how to **build, test, and deploy a REST API** that serves a machine learning model — using fictious healthcare examples throughout.
+A self-paced, hands-on tutorial that teaches you how to **build, test, and deploy a REST API** that serves a machine learning model, using fictious healthcare examples throughout.
 
 By the end, you will have a working API that classifies clinical notes as **urgent** or **routine**, tested with pytest, deployed to the cloud, and powered by an LLM for explanations.
 
@@ -45,7 +45,7 @@ flowchart LR
 
 | | **pip install (library)** | **REST API (service)** |
 |---|---|---|
-| **Users** | Python developers only | Anyone — any language, any device |
+| **Users** | Python developers only | Anyone - any language, any device |
 | **Setup** | Must install Python + all dependencies | Just needs HTTP (curl, browser, any language) |
 | **Updates** | Every user must upgrade | Deploy once, everyone gets the new version |
 | **Access control** | None | API keys, rate limits, audit logs |
@@ -59,13 +59,13 @@ flowchart LR
 
 | Lab | Topic |
 |---|---|
-| [Lab 00](lab_00_rest_fundamentals/README.md) | REST Fundamentals — HTTP verbs, status codes, URL design | 
-| [Lab 01](lab_01_your_first_api/README.md) | Your First API — FastAPI CRUD with all 5 HTTP verbs |
-| [Lab 02](lab_02_train_model/README.md) | Train the Model — TF-IDF + Logistic Regression pipeline | 
-| [Lab 03](lab_03_expose_model/README.md) | Expose the Model — Serve predictions as a REST API | 
-| [Lab 04](lab_04_test_api/README.md) | Test the API — pytest with FastAPI TestClient |
-| [Lab 05](lab_05_deploy/README.md) | Deploy — Render, HuggingFace Spaces, or Docker |
-| [Lab 06](lab_06_llm_api/README.md) | LLM API — Call HuggingFace, build a wrapper API, and evaluate LLM outputs |
+| [Lab 00](lab_00_rest_fundamentals/README.md) | REST fundamentals: HTTP verbs, status codes, URL design |
+| [Lab 01](lab_01_your_first_api/README.md) | Build your first API with FastAPI CRUD |
+| [Lab 02](lab_02_train_model/README.md) | Train a TF-IDF + Logistic Regression pipeline |
+| [Lab 03](lab_03_expose_model/README.md) | Serve model predictions as a REST API |
+| [Lab 04](lab_04_test_api/README.md) | Test the API using pytest and FastAPI TestClient |
+| [Lab 05](lab_05_deploy/README.md) | Deploy with Render, HuggingFace Spaces, or Docker |
+| [Lab 06](lab_06_llm_api/README.md) | Call HuggingFace, build a wrapper API, and evaluate LLM outputs |
 
 **Total:** ~3 hours
 

@@ -1,4 +1,4 @@
-# Lab 05 — Deploy Your API
+# Lab 05: Deploy Your API
 
 > **Goal:** Deploy the prediction API so anyone on the internet can
 > use it.  Three options: Render, HuggingFace Spaces, or Docker.
@@ -6,7 +6,7 @@
 > **Time:** ~30 minutes
 
 > **Prerequisites:**
-> [Lab 04 — Test the API](../lab_04_test_api/README.md)
+> [Lab 04: Test the API](../lab_04_test_api/README.md)
 
 ---
 
@@ -38,7 +38,7 @@ Open [app.py](app.py) and compare it to Lab 03's version.  Key additions:
 | Feature | Why It Matters |
 |---|---|
 | **CORS middleware** | Lets browsers (React, dashboards) call your API |
-| **Demo mode** | API works even without a trained model — returns placeholder predictions |
+| **Demo mode** | API works even without a trained model; returns placeholder predictions |
 | **Health check** (`/health`) | Hosting platforms ping this to know if your service is alive |
 | **Root endpoint** (`/`) | Friendly landing page with links to docs |
 
@@ -46,7 +46,7 @@ Open [app.py](app.py) and compare it to Lab 03's version.  Key additions:
 
 ## Option A: Deploy to Render (Recommended for Beginners)
 
-[Render](https://render.com) is a cloud platform with a free tier —
+[Render](https://render.com) is a cloud platform with a free tier,
 perfect for learning.
 
 ### Steps
@@ -71,7 +71,7 @@ perfect for learning.
 
 6. **Click "Create Web Service"** and wait for the build (~2 min).
 
-7. **Visit your URL** — e.g. `https://your-app-name.onrender.com/docs`
+7. **Visit your URL**, e.g. `https://your-app-name.onrender.com/docs`
 
 > **Note:** The free tier spins down after 15 min of inactivity.
 > The first request after idle takes ~30 seconds to cold-start.
@@ -79,9 +79,9 @@ perfect for learning.
 ### How render.yaml Works
 
 The [render.yaml](../render.yaml) file is a blueprint that tells Render:
-- **buildCommand** — install dependencies AND train the model
-- **startCommand** — run the production app
-- **plan: free** — use the free tier
+- **buildCommand:** install dependencies AND train the model
+- **startCommand:** run the production app
+- **plan: free:** use the free tier
 
 ---
 
@@ -144,10 +144,10 @@ CMD ["uvicorn", ...]           # Start the server
 ```
 
 Key Docker concepts:
-- **Image** — a snapshot of your app + all dependencies (like a template)
-- **Container** — a running instance of an image (like a VM, but lighter)
-- **Layer caching** — Docker reuses unchanged layers, so rebuilds are fast
-- **EXPOSE** — documents the port; `-p` actually maps it
+- **Image** - a snapshot of your app + all dependencies (like a template)
+- **Container** - a running instance of an image (like a VM, but lighter)
+- **Layer caching** - Docker reuses unchanged layers, so rebuilds are fast
+- **EXPOSE** - documents the port; `-p` actually maps it
 
 ### Useful Docker Commands
 

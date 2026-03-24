@@ -38,8 +38,9 @@ ENV PATH="/app/.venv/bin:$PATH"
 # Train the model at build time so it's ready when the container starts
 RUN python lab_02_train_model/train.py
 
-# HuggingFace Spaces expects port 7860
+# Default port: 7860 for HuggingFace Spaces, overridden by $PORT on Render
+ENV PORT=7860
 EXPOSE 7860
 
-# Run the production-ready app
-CMD ["uvicorn", "lab_05_deploy.app:app", "--host", "0.0.0.0", "--port", "7860"]
+# Run the production-ready app (uses $PORT so it works on both Render and HF Spaces)
+CMD uvicorn lab_05_deploy.app:app --host 0.0.0.0 --port $PORT

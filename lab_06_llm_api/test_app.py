@@ -13,13 +13,13 @@ Two categories of tests:
 
 How to run:
     # Fast tests only (no HF_TOKEN needed):
-    pytest lab_06_llm_api/test_app.py -v -m "not llm_eval"
+    pytest test_app.py -v -m "not llm_eval"
 
     # LLM eval tests only (needs HF_TOKEN):
-    pytest lab_06_llm_api/test_app.py -v -m llm_eval
+    pytest test_app.py -v -m llm_eval
 
     # Everything:
-    pytest lab_06_llm_api/test_app.py -v
+    pytest test_app.py -v
 
 Why test LLM outputs?
     - LLMs are non-deterministic — you can't assert exact strings.

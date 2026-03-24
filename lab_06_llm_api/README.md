@@ -6,7 +6,8 @@
 > **Time:** ~30 minutes
 
 > **Prerequisites:**
-> [Lab 05: Deploy](../lab_05_deploy/README.md)
+> [Lab 05: Deploy](../lab_05_deploy/README.md) +
+> a free [HuggingFace API token](https://huggingface.co/settings/tokens) (see Setup below)
 
 ---
 
@@ -336,6 +337,7 @@ These mock the HuggingFace call and test your FastAPI layer:
 | `TestRateLimiting` | 429 after exceeding limit; rate-limit status endpoint |
 | `TestErrorHandling` | 503 when HF_TOKEN is missing |
 | `TestModelsEndpoint` | Models list returns 200 with data/meta |
+| `TestInputSanitization` | Prompt injection, XSS, huge payloads, special characters, wrong content type |
 
 ```bash
 # Run fast tests only (no HF_TOKEN needed):

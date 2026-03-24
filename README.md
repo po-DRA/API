@@ -65,7 +65,7 @@ flowchart LR
 | [Lab 03](lab_03_expose_model/README.md) | Expose the Model — Serve predictions as a REST API | 
 | [Lab 04](lab_04_test_api/README.md) | Test the API — pytest with FastAPI TestClient |
 | [Lab 05](lab_05_deploy/README.md) | Deploy — Render, HuggingFace Spaces, or Docker |
-| [Lab 06](lab_06_llm_api/README.md) | LLM API — Call HuggingFace and build a wrapper API |
+| [Lab 06](lab_06_llm_api/README.md) | LLM API — Call HuggingFace, build a wrapper API, and evaluate LLM outputs |
 
 **Total:** ~3 hours
 

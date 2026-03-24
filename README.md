@@ -1,3 +1,12 @@
+---
+title: REST-API-Builder
+emoji: 🏥
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
+---
+
 # REST-API-Builder
 
 A self-paced, hands-on tutorial that teaches you how to **build, test, and deploy a REST API** that serves a machine learning model, using fictious healthcare examples throughout.

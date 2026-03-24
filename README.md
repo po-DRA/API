@@ -1,6 +1,6 @@
 # REST-API-Builder
 
-A self-paced, hands-on tutorial that teaches you how to **build, test, and deploy a REST API** that serves a machine learning model — using healthcare examples throughout.
+A self-paced, hands-on tutorial that teaches you how to **build, test, and deploy a REST API** that serves a machine learning model — using fictious healthcare examples throughout.
 
 By the end, you will have a working API that classifies clinical notes as **urgent** or **routine**, tested with pytest, deployed to the cloud, and powered by an LLM for explanations.
 

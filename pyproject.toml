@@ -65,6 +65,9 @@ quote-style = "double"
 
 # ── Pytest configuration ───────────────────────────────────────────
 [tool.pytest.ini_options]
-testpaths = ["lab_04_test_api"]
+testpaths = ["lab_04_test_api", "lab_06_llm_api"]
 pythonpath = ["."]              # ensures lab_03_expose_model is importable
 addopts = "-v"
+markers = [
+    "llm_eval: tests that call the real HuggingFace LLM (slow, needs HF_TOKEN)",
+]

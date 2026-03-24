@@ -136,6 +136,7 @@ REST-API-Builder/
 │   └── README.md
 └── lab_06_llm_api/
     ├── app.py                   ← LLM wrapper API
+    ├── test_app.py              ← API tests + LLM output evals
     └── README.md
 ```
 

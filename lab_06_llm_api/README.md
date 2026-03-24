@@ -315,6 +315,60 @@ infrastructure — a great next topic to explore.
 
 ---
 
+## Testing & Evaluating LLM Outputs
+
+LLMs are non-deterministic — you can't assert exact strings like you would
+with a traditional function. Instead, we test **properties** of the output:
+Is it relevant? The right length? Does it address urgency? Is it consistent?
+
+The test suite in [test_app.py](test_app.py) has two parts:
+
+### Part 1 — API Tests (fast, no token needed)
+
+These mock the HuggingFace call and test your FastAPI layer:
+
+| Test class | What it checks |
+|---|---|
+| `TestRootEndpoint` | Health check returns 200 |
+| `TestExplainValidation` | 422 for missing note, short note, bad temperature/tokens |
+| `TestExplainEndpoint` | 201 status, response envelope, required fields |
+| `TestCaching` | Second identical request is cached; different params bypass cache |
+| `TestRateLimiting` | 429 after exceeding limit; rate-limit status endpoint |
+| `TestErrorHandling` | 503 when HF_TOKEN is missing |
+| `TestModelsEndpoint` | Models list returns 200 with data/meta |
+
+```bash
+# Run fast tests only (no HF_TOKEN needed):
+pytest lab_06_llm_api/test_app.py -m "not llm_eval"
+```
+
+### Part 2 — LLM Output Evals (slow, needs HF_TOKEN)
+
+These call the real LLM and check output quality:
+
+| Test class | What it checks |
+|---|---|
+| `TestLLMOutputNotEmpty` | LLM returned *something* |
+| `TestLLMRelevance` | Response mentions clinical terms from the input |
+| `TestLLMUrgencyAssessment` | Response addresses urgency (our prompt's goal) |
+| `TestLLMLengthBounds` | Not too short (error?) or too long (rambling?) |
+| `TestLLMNoHallucinatedFormat` | Response is prose, not JSON or code |
+| `TestLLMConsistency` | Same input at temperature=0 gives similar output twice |
+
+```bash
+# Run LLM evals only (needs HF_TOKEN):
+pytest lab_06_llm_api/test_app.py -m llm_eval
+
+# Run everything:
+pytest lab_06_llm_api/test_app.py
+```
+
+> **Why eval LLM outputs?** When you change your prompt, model, or
+> parameters, these evals catch regressions automatically. In production,
+> teams run evals in CI to ensure prompt changes don't break quality.
+
+---
+
 ## Challenges
 
 See the YOUR TURN section at the bottom of [app.py](app.py):
@@ -332,6 +386,7 @@ See the YOUR TURN section at the bottom of [app.py](app.py):
 - [ ] You can see caching in action (second request is instant)
 - [ ] You can check your rate limit status
 - [ ] You can explain why a wrapper API is better than direct LLM calls
+- [ ] You ran the fast API tests (`pytest -m "not llm_eval"`) and they pass
 - [ ] You attempted at least one challenge
 
 ---

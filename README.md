@@ -164,7 +164,7 @@ These resources are linked throughout the labs:
 
 ## License
 
-This tutorial is for educational purposes. Use it, adapt it, share it.
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 

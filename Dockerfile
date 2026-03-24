@@ -32,6 +32,9 @@ COPY . .
 # Install dependencies using uv
 RUN uv sync --no-dev
 
+# Use the venv for all subsequent commands
+ENV PATH="/app/.venv/bin:$PATH"
+
 # Train the model at build time so it's ready when the container starts
 RUN python lab_02_train_model/train.py
 

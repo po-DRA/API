@@ -95,18 +95,35 @@ apps for free.
 1. Go to [huggingface.co/spaces](https://huggingface.co/spaces) →
    "Create new Space".
 
-2. Choose **Docker** as the SDK.
+2. Choose **Docker** as the SDK, select **Blank** template, and
+   **CPU Basic** (free).
 
-3. Clone the Space repo locally and copy your project files into it.
+3. Add the HF Space as a second git remote (no need to clone a
+   separate repo):
+   ```bash
+   # Add HF Space as a remote (one-time setup)
+   git remote add hf https://huggingface.co/spaces/<your-username>/<space-name>
+
+   # Push your code to the Space
+   # You'll need a HuggingFace token with write permissions
+   git push https://<your-username>:<your-hf-token>@huggingface.co/spaces/<your-username>/<space-name> main --force
+   ```
+   Use `--force` on the first push to overwrite the Space's default README.
 
 4. The [Dockerfile](../Dockerfile) is already configured for HF Spaces:
    - Trains the model at build time
    - Exposes port 7860 (HF Spaces requirement)
 
-5. Push to the Space and wait for the build.
+5. Wait for the build (check the **Logs** tab on your Space page).
 
-6. Your API will be live at
-   `https://huggingface.co/spaces/<your-username>/<space-name>`
+6. Your API will be live at two URLs:
+   - Space page: `https://huggingface.co/spaces/<your-username>/<space-name>`
+   - Direct API access: `https://<your-username>-<space-name>.hf.space`
+   - Swagger docs: `https://<your-username>-<space-name>.hf.space/docs`
+
+> **Note:** The Space page URL (`huggingface.co/spaces/...`) shows the
+> API response embedded in the HF interface. For Swagger docs and direct
+> API calls, use the `hf.space` URL instead.
 
 ---
 

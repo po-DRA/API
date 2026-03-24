@@ -339,7 +339,7 @@ These mock the HuggingFace call and test your FastAPI layer:
 
 ```bash
 # Run fast tests only (no HF_TOKEN needed):
-pytest lab_06_llm_api/test_app.py -m "not llm_eval"
+pytest test_app.py -m "not llm_eval"
 ```
 
 ### Part 2: LLM Output Evals (slow, needs HF_TOKEN)
@@ -357,10 +357,10 @@ These call the real LLM and check output quality:
 
 ```bash
 # Run LLM evals only (needs HF_TOKEN):
-pytest lab_06_llm_api/test_app.py -m llm_eval
+pytest test_app.py -m llm_eval
 
 # Run everything:
-pytest lab_06_llm_api/test_app.py
+pytest test_app.py
 ```
 
 > **Why eval LLM outputs?** When you change your prompt, model, or

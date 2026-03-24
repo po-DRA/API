@@ -116,6 +116,7 @@ REST-API-Builder/
 │   ├── lab_01_challenge3.md     ← Solution for Lab 01 stretch challenge
 │   ├── lab_03_challenges.md     ← Solutions for Lab 03 challenges
 │   ├── lab_04_challenges.md     ← Solutions for Lab 04 challenges
+│   ├── lab_05_challenges.md     ← Solutions for Lab 05 challenges
 │   └── lab_06_challenges.md     ← Solutions for Lab 06 challenges
 ├── lab_00_rest_fundamentals/
 │   └── README.md                ← REST theory + quiz

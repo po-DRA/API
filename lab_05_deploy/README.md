@@ -215,6 +215,43 @@ app.add_middleware(
 
 ---
 
+## Auto-Deploy on Push
+
+When you connect Render (or HuggingFace Spaces) to your GitHub repo,
+it can **automatically redeploy** every time you push to `main`. No
+manual button clicks needed.
+
+On Render, check: **Settings > Build & Deploy > Auto-Deploy** and make
+sure it's set to **"Yes"**. Now every `git push` triggers a new build
+and deploy automatically.
+
+This is the simplest form of **Continuous Deployment (CD)**. For a more
+robust setup, you'd add a CI pipeline that runs tests *before* deploying
+(see Challenge 2 below).
+
+---
+
+## Challenges
+
+1. **(Easy)** Enable auto-deploy on Render so that every push to `main`
+   triggers a new deployment automatically. Verify it works by making
+   a small change, pushing, and watching the build start on its own.
+
+2. **(Medium)** Set up a GitHub Actions CI pipeline that runs your
+   tests on every push. Create a `.github/workflows/ci.yml` file that:
+   - Installs dependencies with `uv`
+   - Runs `pytest` on Lab 04 and Lab 06 tests
+   - Hint: you'll need `actions/checkout`, `actions/setup-python`,
+     and a step to install `uv`
+
+3. **(Stretch)** Extend your CI pipeline to also run `ruff check .`
+   so linting errors are caught before they reach production.
+
+See [solutions/lab_05_challenges.md](../solutions/lab_05_challenges.md)
+for answers.
+
+---
+
 ## ✅ Done When
 
 - [ ] Your API is deployed and accessible via a public URL

@@ -317,16 +317,17 @@ def _call_huggingface(
 @app.get("/", status_code=200, tags=["System"])
 def root():
     """Welcome page — confirms the API is running."""
+    token_status = "ok" if HF_TOKEN else "missing — set HF_TOKEN environment variable"
     return {
         "message": "LLM-Powered Clinical API is running!",
         "playground": "/play",
         "docs": "/docs",
+        "hf_token": token_status,
         "endpoints": {
             "explain": "POST /v1/explain",
             "models": "GET /v1/models",
             "rate_limit": "GET /v1/rate-limit",
         },
-        "setup": "Set HF_TOKEN environment variable to get started.",
     }
 
 

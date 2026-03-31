@@ -116,14 +116,24 @@ apps for free.
 
 5. Wait for the build (check the **Logs** tab on your Space page).
 
-6. Your API will be live at two URLs:
-   - Space page: `https://huggingface.co/spaces/<your-username>/<space-name>`
-   - Direct API access: `https://<your-username>-<space-name>.hf.space`
-   - Swagger docs: `https://<your-username>-<space-name>.hf.space/docs`
+6. Find your Space URL. HuggingFace gives you **two different URLs** and
+   this trips people up:
 
-> **Note:** The Space page URL (`huggingface.co/spaces/...`) shows the
-> API response embedded in the HF interface. For Swagger docs and direct
-> API calls, use the `hf.space` URL instead.
+   | URL | What you see |
+   |---|---|
+   | `https://huggingface.co/spaces/<username>/<space-name>` | The HF Space page - shows the raw API JSON, no docs |
+   | `https://<username>-<space-name>.hf.space/docs` | Your actual Swagger docs |
+
+   The second URL is the one you want. The pattern is:
+   - replace `/` between username and space name with `-`
+   - add `.hf.space` at the end
+
+   **Example:** if your username is `priyanka-nl` and space name is `testbed`:
+   - Space page: `https://huggingface.co/spaces/priyanka-nl/testbed`
+   - Swagger docs: `https://priyanka-nl-testbed.hf.space/docs`
+   - Playground: `https://priyanka-nl-testbed.hf.space/play`
+
+> **Tip:** Bookmark the `hf.space` URL — that's your API's public address.
 
 ---
 
